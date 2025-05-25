@@ -24,12 +24,12 @@ export default function EventCard({ event }: EventCardProps) {
           <img
             src={event.image_url}
             alt={event.image_alt_text || event.title}
-            className="card-img-top"
-            style={{ objectFit: 'cover', maxHeight: '150px' }}
+            className="card-img-top w-100"
+            style={{ objectFit: 'cover' }}
           />
         )}
-        <div className="card-body">
-          <h3 className="card-title">{event.title}</h3>
+        <div className="card-body d-flex flex-column">
+          <h3 className="card-title fs-5 fs-md-4">{event.title}</h3>
           {event.start_time && (
             <time
               className="card-subtitle mb-2 text-muted"

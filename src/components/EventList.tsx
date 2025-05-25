@@ -3,7 +3,11 @@ import { fetchEvents } from '../api/api';
 import type { Event } from '../types/event.types';
 import EventCard from './EventCard';
 
-const EventList = () => {
+interface EventListProps {
+  search: string;
+}
+
+const EventList = ({ search }: EventListProps) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,10 +19,14 @@ const EventList = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const filteredEvents = events.filter((event) =>
+    (event.title ?? '').toLowerCase().includes(search.toLowerCase())
+  );
+
   if (loading)
     return <div className="text-center">Finding your next event...</div>;
   if (error) return <div className="text-danger text-center">{error}</div>;
-  if (events.length === 0)
+  if (filteredEvents.length === 0)
     return <div className="text-center">No events found!</div>;
 
   return (
@@ -27,8 +35,11 @@ const EventList = () => {
         Events
       </h2>
       <ul className="row list-unstyled" aria-label="Event list">
-        {events.map((event) => (
-          <li className="col-md-4 mb-4 d-flex" key={event.id}>
+        {filteredEvents.map((event) => (
+          <li
+            key={event.id}
+            className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex"
+          >
             <EventCard event={event} />
           </li>
         ))}

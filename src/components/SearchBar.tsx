@@ -1,0 +1,67 @@
+import { useState, useEffect } from 'react';
+import type { ChangeEvent } from 'react';
+import searchIcon from '../assets/icons8-search.svg';
+
+interface SearchBarProps {
+  value: string;
+  onChange: (value: string) => void;
+  onSearch: () => void;
+}
+
+const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
+  const [showPlaceholder, setShowPlaceholder] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setShowPlaceholder(window.innerWidth > 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <form
+      className="w-100"
+      role="search"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSearch();
+      }}
+      style={{ marginBottom: 0 }}
+    >
+      <div className="input-group">
+        <label htmlFor="event-search" className="visually-hidden">
+          Search events
+        </label>
+        <input
+          id="event-search"
+          type="search"
+          className="form-control form-control-sm"
+          style={{ height: 40 }}
+          placeholder={showPlaceholder ? 'Search events...' : ''}
+          value={value}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            onChange(e.target.value)
+          }
+          autoComplete="off"
+        />
+        <button
+          type="submit"
+          className="btn btn-primary btn-sm custom-button"
+          style={{
+            height: 40,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          aria-label="Search"
+        >
+          <img src={searchIcon} alt="" width={16} height={16} />
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default SearchBar;
