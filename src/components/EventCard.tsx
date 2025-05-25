@@ -29,7 +29,7 @@ export default function EventCard({ event }: EventCardProps) {
           />
         )}
         <div className="card-body d-flex flex-column">
-          <h3 className="card-title fs-5 fs-md-4">{event.title}</h3>
+          <h3 className="card-title fs-3 fs-md-4">{event.title}</h3>
           {event.start_time && (
             <time
               className="card-subtitle mb-2 text-muted"

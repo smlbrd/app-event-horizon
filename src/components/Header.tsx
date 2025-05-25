@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import eventHorizonLogo from '../assets/icons8-sun.svg';
 import userIcon from '../assets/user-icon.png';
-import menuIcon from '../assets/icons8-menu.svg';
 import SearchBar from './SearchBar';
 
 interface HeaderProps {
@@ -42,48 +41,43 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
     <header
       className="border-bottom"
       style={{
-        height: '72px',
         minHeight: '72px',
         padding: '0 1rem',
         background: '#fff',
       }}
     >
-      <div
-        className="d-flex align-items-center h-100"
-        style={{ height: '100%' }}
-      >
-        <Link
-          to="/"
-          tabIndex={0}
-          className="me-3 d-flex align-items-center text-decoration-none"
-          style={{ height: '70%' }}
-          onClick={() => {
-            onSearchChange('');
-            onSearch('');
-          }}
-        >
-          <img
-            src={eventHorizonLogo}
-            alt="Event Horizon Logo"
-            style={{
-              height: 40,
-              width: 40,
-              objectFit: 'contain',
-              cursor: 'pointer',
+      <div className="d-flex flex-row align-items-center justify-content-between flex-wrap py-2">
+        <div className="d-flex align-items-center flex-shrink-0 me-2">
+          <Link
+            to="/"
+            tabIndex={0}
+            className="d-flex align-items-center text-decoration-none"
+            style={{ height: 40 }}
+            onClick={() => {
+              onSearchChange('');
+              onSearch('');
             }}
-          />
-          <span
-            className="fs-4 fw-bold ms-2 text-dark d-none d-md-inline"
-            style={{ lineHeight: 1 }}
           >
-            event horizon
-          </span>
-        </Link>
+            <img
+              src={eventHorizonLogo}
+              alt="Event Horizon Logo"
+              style={{
+                height: 40,
+                width: 40,
+                objectFit: 'contain',
+                cursor: 'pointer',
+              }}
+            />
+            <span
+              className="fs-4 fw-bold ms-2 text-dark d-none d-md-inline"
+              style={{ lineHeight: 1 }}
+            >
+              event horizon
+            </span>
+          </Link>
+        </div>
 
-        <div
-          className="flex-grow-1 d-flex align-items-center justify-content-center w-30"
-          style={{ height: '100%' }}
-        >
+        <div className="d-none d-md-flex flex-grow-1 align-items-center justify-content-center mx-3">
           <div style={{ maxWidth: 350, width: '100%' }}>
             <SearchBar
               value={searchValue}
@@ -94,7 +88,7 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
         </div>
 
         <div
-          className="d-flex align-items-center"
+          className="d-flex align-items-center flex-shrink-0"
           style={{
             minWidth: 180,
             justifyContent: 'flex-end',
@@ -165,53 +159,26 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
                   Sign up
                 </Link>
               </nav>
-              <div className="d-md-none position-relative">
-                <img
-                  src={menuIcon}
-                  alt="Open menu"
-                  style={{ height: 32, width: 32, cursor: 'pointer' }}
-                  onClick={() => setDropdownOpen((open) => !open)}
-                  tabIndex={0}
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded={dropdownOpen}
-                  aria-label="Open authentication menu"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setDropdownOpen((open) => !open);
-                    }
-                  }}
-                />
-                {dropdownOpen && (
-                  <ul
-                    className="dropdown-menu show dropdown-menu-end"
-                    style={{ right: 0, left: 'auto', top: '110%' }}
-                    role="menu"
-                  >
-                    <li role="menuitem">
-                      <Link
-                        to="/login"
-                        className="dropdown-item"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        Log in
-                      </Link>
-                    </li>
-                    <li role="menuitem">
-                      <Link
-                        to="/register"
-                        className="dropdown-item"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        Sign up
-                      </Link>
-                    </li>
-                  </ul>
-                )}
+              <div className="d-md-none">
+                <Link to="/login" className="btn btn-outline-primary me-2">
+                  Log in
+                </Link>
+                <Link to="/register" className="btn btn-primary">
+                  Sign up
+                </Link>
               </div>
             </>
           )}
+        </div>
+      </div>
+
+      <div className="d-flex d-md-none align-items-center justify-content-center mt-2">
+        <div className="w-100" style={{ maxWidth: 600 }}>
+          <SearchBar
+            value={searchValue}
+            onChange={onSearchChange}
+            onSearch={onSearch}
+          />
         </div>
       </div>
     </header>

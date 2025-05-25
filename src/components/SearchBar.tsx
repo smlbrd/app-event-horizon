@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import type { ChangeEvent } from 'react';
 import searchIcon from '../assets/icons8-search.svg';
 
@@ -9,17 +8,6 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
-  const [showPlaceholder, setShowPlaceholder] = useState(true);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setShowPlaceholder(window.innerWidth > 768);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
     <form
       className="w-100"
@@ -39,7 +27,7 @@ const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
           type="search"
           className="form-control form-control-sm"
           style={{ height: 40 }}
-          placeholder={showPlaceholder ? 'Search events...' : ''}
+          placeholder={'Search events'}
           value={value}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             onChange(e.target.value)
