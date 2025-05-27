@@ -8,7 +8,13 @@ type EventCardProps = {
 
 export default function EventCard({ event }: EventCardProps) {
   return (
-    <article className="card h-100">
+    <article
+      className="card h-100"
+      style={{
+        minWidth: '250px',
+        maxWidth: '350px',
+      }}
+    >
       <Link
         to={`/e/${event.id}`}
         tabIndex={0}
