@@ -63,3 +63,9 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.modal-blur-active #root > *:not(.modal-backdrop):not(.modal):not(.modal.show) {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
