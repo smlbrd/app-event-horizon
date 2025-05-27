@@ -1,18 +1,12 @@
 import { Link } from 'react-router-dom';
 import type { Event } from '../types/event.types';
+import EventSummary from './EventSummary';
 
 type EventCardProps = {
   event: Event;
 };
 
 export default function EventCard({ event }: EventCardProps) {
-  const formattedDateTime = event.start_time
-    ? new Date(event.start_time).toLocaleString(undefined, {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      })
-    : '';
-
   return (
     <article className="card h-100">
       <Link
@@ -30,21 +24,7 @@ export default function EventCard({ event }: EventCardProps) {
           />
         )}
         <div className="card-body d-flex flex-column">
-          <h3 className="card-title fs-3 fs-md-4">{event.title}</h3>
-          {event.start_time && (
-            <time
-              className="card-subtitle mb-2 text-muted"
-              dateTime={event.start_time}
-            >
-              {formattedDateTime}
-            </time>
-          )}
-          {event.location && (
-            <div className="card-text">
-              <span className="visually-hidden">Location: </span>
-              {event.location}
-            </div>
-          )}
+          <EventSummary event={event} showDescription={false} />
         </div>
       </Link>
     </article>

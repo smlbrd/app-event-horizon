@@ -11,6 +11,7 @@ import Header from '../components/Header';
 import CheckoutModal from '../components/CheckoutModal';
 import SuccessModal from '../components/SuccessModal';
 import AddToGoogleCalendarButton from '../components/AddToGoogleCalendarButton';
+import { formattedDateTime } from '../utils/formattedDateTime';
 
 const EventDetail = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -91,13 +92,6 @@ const EventDetail = () => {
       </div>
     );
 
-  const formattedDateTime = event.start_time
-    ? new Date(event.start_time).toLocaleString(undefined, {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      })
-    : '';
-
   const going = attendees.filter((a) => a.status === 'attending');
 
   const handleBackdropClick = (
@@ -128,13 +122,8 @@ const EventDetail = () => {
             {event.title}
           </h1>
           <div className="mb-3 text-muted">
-            <div>
-              <strong>Location:</strong> {event.location}
-            </div>
-            <div>
-              <strong>Time:</strong>{' '}
-              <time dateTime={event.start_time}>{formattedDateTime}</time>
-            </div>
+            <address>{event.location}</address>
+            <time dateTime={event.start_time}>{formattedDateTime(event)}</time>
           </div>
           <div className="mb-3">
             {going.length > 0 ? (
