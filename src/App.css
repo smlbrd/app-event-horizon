@@ -45,6 +45,12 @@
   color: #fff !important;
 }
 
+.search-bar:hover,
+.search-bar:focus {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s;
+}
+
 @media (max-width: 767.98px) {
   .header-title {
     font-size: 1.2rem;

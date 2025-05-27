@@ -80,7 +80,7 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
               }}
             />
             <span
-              className="fs-4 fw-bold ms-2 text-dark d-none d-sm-inline"
+              className="fs-3 fw-bold ms-2 text-dark d-none d-sm-inline"
               style={{ lineHeight: 1 }}
             >
               event horizon
