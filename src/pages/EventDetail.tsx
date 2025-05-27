@@ -1,9 +1,16 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import type { Event } from '../types/event.types';
 import type { Attendee } from '../types/attendee.types';
-import { fetchEventById, fetchAttendeesByEventId } from '../api/api';
+import {
+  fetchEventById,
+  fetchAttendeesByEventId,
+  addAttendeeToEvent,
+} from '../api/api';
 import Header from '../components/Header';
+import CheckoutModal from '../components/CheckoutModal';
+import SuccessModal from '../components/SuccessModal';
+import AddToGoogleCalendarButton from '../components/AddToGoogleCalendarButton';
 
 const EventDetail = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -12,6 +19,14 @@ const EventDetail = () => {
   const [error, setError] = useState<string | null>(null);
   const [rsvp, setRsvp] = useState(false);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [loadingRsvp, setLoadingRsvp] = useState(false);
+  const [rsvpError, setRsvpError] = useState<string | null>(null);
+
+  const checkoutModalRef = useRef<HTMLDivElement>(null);
+  const successModalRef = useRef<HTMLDivElement>(null);
+  const getTicketsBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!eventId) return;
@@ -21,9 +36,52 @@ const EventDetail = () => {
       .catch(() => setError('Could not load event'))
       .finally(() => setLoading(false));
     fetchAttendeesByEventId(eventId)
-      .then(setAttendees)
+      .then((data) => {
+        setAttendees(data);
+      })
       .catch(() => setAttendees([]));
   }, [eventId]);
+
+  useEffect(() => {
+    if (showCheckout && checkoutModalRef.current) {
+      checkoutModalRef.current.focus();
+    }
+    if (showSuccess && successModalRef.current) {
+      successModalRef.current.focus();
+    }
+  }, [showCheckout, showSuccess]);
+
+  useEffect(() => {
+    if (!showCheckout && getTicketsBtnRef.current) {
+      getTicketsBtnRef.current.focus();
+    }
+  }, [showCheckout]);
+
+  const handleGetTickets = () => {
+    setRsvpError(null);
+    setShowCheckout(true);
+  };
+
+  const handleConfirmRsvp = async () => {
+    if (!eventId) return;
+    setLoadingRsvp(true);
+    setRsvpError(null);
+    try {
+      await addAttendeeToEvent(eventId);
+      setRsvp(true);
+      setShowCheckout(false);
+      setShowSuccess(true);
+      fetchAttendeesByEventId(eventId)
+        .then(setAttendees)
+        .catch(() => {});
+    } catch (e) {
+      setRsvpError('Failed to confirm RSVP. Please try again later.');
+      console.log('RSVP error:', e);
+      setShowCheckout(true);
+    } finally {
+      setLoadingRsvp(false);
+    }
+  };
 
   if (loading) return <div className="text-center my-5">Loading event...</div>;
   if (error || !event)
@@ -41,6 +99,13 @@ const EventDetail = () => {
     : '';
 
   const going = attendees.filter((a) => a.status === 'attending');
+
+  const handleBackdropClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    close: () => void
+  ) => {
+    if (e.target === e.currentTarget) close();
+  };
 
   return (
     <>
@@ -82,16 +147,40 @@ const EventDetail = () => {
           </div>
           <p className="mb-4 fs-5 fs-md-4">{event.description}</p>
           <button
-            className="btn btn-orange btn-lg px-4"
-            onClick={() => setRsvp(true)}
+            ref={getTicketsBtnRef}
+            className="btn btn-orange btn-lg px-4 me-2"
+            onClick={handleGetTickets}
             disabled={rsvp}
             aria-pressed={rsvp}
             aria-live="polite"
           >
             {rsvp ? 'Going!' : 'Get Tickets'}
           </button>
+          {rsvp && (
+            <AddToGoogleCalendarButton event={event} className="btn-lg px-4" />
+          )}
         </section>
       </main>
+
+      <CheckoutModal
+        ref={checkoutModalRef}
+        show={showCheckout}
+        loading={loadingRsvp}
+        error={rsvpError}
+        onCancel={() => setShowCheckout(false)}
+        onConfirm={handleConfirmRsvp}
+        onBackdropClick={(e) =>
+          handleBackdropClick(e, () => setShowCheckout(false))
+        }
+      />
+      {event && (
+        <SuccessModal
+          ref={successModalRef}
+          show={showSuccess}
+          onClose={() => setShowSuccess(false)}
+          event={event}
+        />
+      )}
     </>
   );
 };

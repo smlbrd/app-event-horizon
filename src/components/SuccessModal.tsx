@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import type { Event } from '../types/event.types';
+import AddToGoogleCalendarButton from './AddToGoogleCalendarButton';
 
 interface SuccessModalProps {
   show: boolean;
@@ -30,26 +31,6 @@ const SuccessModal = React.forwardRef<HTMLDivElement, SuccessModalProps>(
     }, [show, onClose]);
 
     if (!show) return null;
-
-    const toGoogleDateTime = (dateStr: string) => {
-      const date = new Date(dateStr);
-      return date
-        .toISOString()
-        .replace(/[-:]/g, '')
-        .replace(/\.\d{3}Z$/, 'Z');
-    };
-    const start = toGoogleDateTime(event.start_time);
-    const end = toGoogleDateTime(
-      event.end_time ||
-        new Date(
-          new Date(event.start_time).getTime() + 2 * 60 * 60 * 1000
-        ).toISOString()
-    );
-    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      event.title
-    )}&dates=${start}/${end}&details=${encodeURIComponent(
-      event.description || ''
-    )}&location=${encodeURIComponent(event.location || '')}`;
 
     const formattedDateTime = event.start_time
       ? new Date(event.start_time).toLocaleString(undefined, {
@@ -103,13 +84,7 @@ const SuccessModal = React.forwardRef<HTMLDivElement, SuccessModalProps>(
               </div>
             </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-success"
-                onClick={() => window.open(gcalUrl, '_blank', 'noopener')}
-              >
-                Add to Google Calendar
-              </button>
+              <AddToGoogleCalendarButton event={event} />
             </div>
           </div>
         </div>
