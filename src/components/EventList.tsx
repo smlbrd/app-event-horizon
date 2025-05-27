@@ -34,11 +34,12 @@ const EventList = ({ search }: EventListProps) => {
       <h2 id="events-heading" className="visually-hidden">
         Events
       </h2>
-      <ul className="row list-unstyled" aria-label="Event list">
+      <ul className="row list-unstyled" aria-label="Event list" role="list">
         {filteredEvents.map((event) => (
           <li
             key={event.id}
             className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex"
+            role="listitem"
           >
             <EventCard event={event} />
           </li>

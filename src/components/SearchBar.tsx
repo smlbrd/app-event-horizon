@@ -18,14 +18,14 @@ const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
       }}
       style={{ marginBottom: 0 }}
     >
-      <div className="input-group search-bar">
+      <div className="search-bar">
         <label htmlFor="event-search" className="visually-hidden">
           Search events
         </label>
         <input
           id="event-search"
           type="search"
-          className="form-control rounded-start"
+          className="form-control"
           style={{ height: 40 }}
           placeholder={'Search events'}
           value={value}
@@ -36,9 +36,10 @@ const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
         />
         <button
           type="submit"
-          className="btn btn-primary custom-button rounded-end"
+          className="search-bar-button btn-orange"
           style={{
             height: 40,
+            width: 40,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

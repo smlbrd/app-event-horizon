@@ -17,6 +17,7 @@ export default function EventCard({ event }: EventCardProps) {
     <article className="card h-100">
       <Link
         to={`/e/${event.id}`}
+        tabIndex={0}
         className="event-card-link"
         aria-label={`View details for ${event.title}`}
       >
