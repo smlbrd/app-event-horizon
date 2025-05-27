@@ -52,8 +52,6 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
     <header
       className="border-bottom fixed-top"
       style={{
-        minHeight: '72px',
-        height: '80px',
         padding: '0 1rem',
         zIndex: 900,
         boxShadow: '0 2px 4px rgba(0,0,0,0.03)',
