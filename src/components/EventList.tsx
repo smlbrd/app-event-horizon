@@ -20,7 +20,9 @@ const EventList = ({ search }: EventListProps) => {
   }, []);
 
   const filteredEvents = events.filter((event) =>
-    (event.title ?? '').toLowerCase().includes(search.toLowerCase())
+    [event.title, event.description, event.location]
+      .filter(Boolean)
+      .some((field) => field!.toLowerCase().includes(search.toLowerCase()))
   );
 
   if (loading)
@@ -30,15 +32,15 @@ const EventList = ({ search }: EventListProps) => {
     return <div className="text-center">No events found!</div>;
 
   return (
-    <section aria-labelledby="events-heading">
+    <section aria-labelledby="events-heading" className="mt-4 py-4">
       <h2 id="events-heading" className="visually-hidden">
         Events
       </h2>
-      <ul className="row list-unstyled" aria-label="Event list" role="list">
+      <ul className="row g-3 list-unstyled" aria-label="Event list" role="list">
         {filteredEvents.map((event) => (
           <li
             key={event.id}
-            className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex"
+            className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
             role="listitem"
           >
             <EventCard event={event} />

@@ -1,20 +1,30 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import type { Event } from '../types/event.types';
+import type { Attendee } from '../types/attendee.types';
+import { fetchAttendeesByEventId } from '../api/api';
+import EventSummary from './EventSummary';
+import AttendeeCounter from './AttendeeCounter';
 
 type EventCardProps = {
   event: Event;
 };
 
 export default function EventCard({ event }: EventCardProps) {
-  const formattedDateTime = event.start_time
-    ? new Date(event.start_time).toLocaleString(undefined, {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      })
-    : '';
+  const [attendees, setAttendees] = useState<Attendee[]>([]);
+
+  useEffect(() => {
+    fetchAttendeesByEventId(event.id).then(setAttendees);
+  }, [event.id]);
 
   return (
-    <article className="card h-100">
+    <article
+      className="card h-100"
+      style={{
+        minWidth: '200px',
+        maxWidth: '350px',
+      }}
+    >
       <Link
         to={`/e/${event.id}`}
         tabIndex={0}
@@ -30,21 +40,8 @@ export default function EventCard({ event }: EventCardProps) {
           />
         )}
         <div className="card-body d-flex flex-column">
-          <h3 className="card-title fs-3 fs-md-4">{event.title}</h3>
-          {event.start_time && (
-            <time
-              className="card-subtitle mb-2 text-muted"
-              dateTime={event.start_time}
-            >
-              {formattedDateTime}
-            </time>
-          )}
-          {event.location && (
-            <div className="card-text">
-              <span className="visually-hidden">Location: </span>
-              {event.location}
-            </div>
-          )}
+          <EventSummary event={event} showDescription={false} />
+          <AttendeeCounter attendees={attendees} />
         </div>
       </Link>
     </article>

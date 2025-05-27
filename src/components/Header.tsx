@@ -50,11 +50,11 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
 
   return (
     <header
-      className="border-bottom"
+      className="border-bottom fixed-top"
       style={{
-        minHeight: '72px',
         padding: '0 1rem',
-        background: '#fff',
+        zIndex: 900,
+        backgroundColor: '#fff',
       }}
     >
       <div className="d-flex flex-row align-items-center justify-content-between flex-wrap py-2">
@@ -80,7 +80,13 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
               }}
             />
             <span
-              className="fs-3 fw-bold ms-2 text-dark d-none d-sm-inline"
+              className="fs-3 fw-bold ms-2 text-dark d-none d-lg-inline"
+              style={{ lineHeight: 1 }}
+            >
+              event horizon
+            </span>
+            <span
+              className="fs-3 fw-bold ms-2 text-dark d-none d-sm-inline d-md-none"
               style={{ lineHeight: 1 }}
             >
               event horizon
@@ -88,8 +94,8 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
           </Link>
         </div>
 
-        <div className="d-none d-md-flex flex-grow-1 align-items-center justify-content-center mx-3">
-          <div style={{ maxWidth: 350, width: '100%' }}>
+        <div className="d-none d-md-flex flex-grow-1 align-items-center justify-content-center">
+          <div style={{ width: '80%' }}>
             <SearchBar
               value={searchValue}
               onChange={onSearchChange}
