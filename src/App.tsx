@@ -2,20 +2,25 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import './App.css';
 import SkipToContent from './components/SkipToContent';
+import { UserProvider } from './contexts/UserContext';
 
 const Home = lazy(() => import('./pages/Home'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
+const Login = lazy(() => import('./pages/Login'));
 
 function App() {
   return (
     <Router>
-      <SkipToContent />
-      <Suspense fallback={<div className="text-center my-5">Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/e/:eventId" element={<EventDetail />} />
-        </Routes>
-      </Suspense>
+      <UserProvider>
+        <SkipToContent />
+        <Suspense fallback={<div className="text-center my-5">Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/e/:eventId" element={<EventDetail />} />
+          </Routes>
+        </Suspense>
+      </UserProvider>
     </Router>
   );
 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import eventHorizonLogo from '../assets/icons8-sun.svg';
 import userIcon from '../assets/user-icon.png';
 import SearchBar from './SearchBar';
+import { useUser } from '../contexts/useUser';
 
 interface HeaderProps {
   searchValue: string;
@@ -10,9 +11,8 @@ interface HeaderProps {
   onSearch: (value?: string) => void;
 }
 
-const isLoggedIn = false;
-
 const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
+  const { user, logout } = useUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLUListElement>(null);
@@ -112,7 +112,7 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
             height: '100%',
           }}
         >
-          {isLoggedIn ? (
+          {user ? (
             <div ref={dropdownRef} className="position-relative">
               <img
                 src={userIcon}
@@ -161,7 +161,10 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
                     <button
                       type="button"
                       className="dropdown-item text-danger"
-                      onClick={() => setDropdownOpen(false)}
+                      onClick={() => {
+                        logout();
+                        setDropdownOpen(false);
+                      }}
                     >
                       Log out
                     </button>
