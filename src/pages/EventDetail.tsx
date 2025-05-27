@@ -73,13 +73,13 @@ const EventDetail = () => {
     setLoadingRsvp(true);
     setRsvpError(null);
     try {
-      await addAttendeeToEvent(eventId, user.id);
+      await addAttendeeToEvent(eventId, user.id, 'attending');
       setShowCheckout(false);
       setShowSuccess(true);
       fetchAttendeesByEventId(eventId)
         .then(setAttendees)
         .catch(() => {});
-    } catch (e) {
+    } catch (e: unknown) {
       console.log(e);
       setRsvpError('Failed to confirm RSVP. Please try again later.');
       setShowCheckout(true);
