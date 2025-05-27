@@ -79,3 +79,16 @@ export async function addAttendeeToEvent(
 
   return response.json();
 }
+
+export async function fetchUserProfile(
+  user_id: string,
+  token: string
+): Promise<User> {
+  const response = await fetch(`${API_URL}/users/${user_id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) throw new Error('Failed to fetch user profile');
+  return response.json();
+}

@@ -1,5 +1,12 @@
-import { createContext, useState, useMemo, type ReactNode } from 'react';
+import {
+  createContext,
+  useState,
+  useMemo,
+  useEffect,
+  type ReactNode,
+} from 'react';
 import type { User } from '../types/user.types';
+import { fetchUserProfile } from '../api/api';
 
 interface UserContextValue {
   user: User | null;
@@ -14,8 +21,26 @@ export const UserContext = createContext<UserContextValue | undefined>(
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user_id = localStorage.getItem('user_id');
+    if (token && user_id && !user) {
+      fetchUserProfile(user_id, token)
+        .then(setUser)
+        .catch(() => {
+          setUser(null);
+          localStorage.removeItem('token');
+          localStorage.removeItem('user_id');
+        });
+    }
+  }, []);
+
   const login = (user: User) => setUser(user);
-  const logout = () => setUser(null);
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
+  };
 
   const value = useMemo(() => ({ user, login, logout }), [user]);
 

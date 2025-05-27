@@ -21,8 +21,8 @@ const Login: React.FC = () => {
 
     try {
       const { user, token } = await createUserLogin(username, password);
-      // Optionally store the token for authenticated requests
       localStorage.setItem('token', token);
+      localStorage.setItem('user_id', user.id.toString());
       login(user);
       navigate('/');
     } catch (e: unknown) {
