@@ -54,7 +54,7 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
       style={{
         padding: '0 1rem',
         zIndex: 900,
-        boxShadow: '0 2px 4px rgba(0,0,0,0.03)',
+        backgroundColor: '#fff',
       }}
     >
       <div className="d-flex flex-row align-items-center justify-content-between flex-wrap py-2">
