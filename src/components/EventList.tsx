@@ -30,7 +30,7 @@ const EventList = ({ search }: EventListProps) => {
     return <div className="text-center">No events found!</div>;
 
   return (
-    <section aria-labelledby="events-heading">
+    <section aria-labelledby="events-heading" className="mt-4">
       <h2 id="events-heading" className="visually-hidden">
         Events
       </h2>

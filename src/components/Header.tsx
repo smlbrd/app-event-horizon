@@ -57,7 +57,7 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
         background: '#fff',
       }}
     >
-      <div className="d-flex flex-row align-items-center justify-content-between flex-wrap py-2">
+      <div className="d-flex flex-row align-items-center justify-content-between flex-wrap pb-2">
         <div className="d-flex align-items-center flex-shrink-0 me-2">
           <Link
             to="/"
