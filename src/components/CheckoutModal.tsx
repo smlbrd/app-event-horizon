@@ -40,9 +40,6 @@ const CheckoutModal = React.forwardRef<HTMLDivElement, CheckoutModalProps>(
         )}
       </div>
       <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" onClick={onCancel}>
-          Cancel
-        </button>
         <button
           type="button"
           className="btn btn-primary"

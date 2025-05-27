@@ -50,14 +50,16 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
 
   return (
     <header
-      className="border-bottom"
+      className="border-bottom fixed-top"
       style={{
         minHeight: '72px',
+        height: '80px',
         padding: '0 1rem',
-        background: '#fff',
+        zIndex: 900,
+        boxShadow: '0 2px 4px rgba(0,0,0,0.03)',
       }}
     >
-      <div className="d-flex flex-row align-items-center justify-content-between flex-wrap pb-2">
+      <div className="d-flex flex-row align-items-center justify-content-between flex-wrap py-2">
         <div className="d-flex align-items-center flex-shrink-0 me-2">
           <Link
             to="/"

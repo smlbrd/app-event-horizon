@@ -3,6 +3,7 @@ const skipLinkStyle: React.CSSProperties = {
   left: 0,
   top: 0,
   background: '#fff',
+  backgroundColor: 'fff',
   color: '#007bff',
   padding: '0.5em 1em',
   zIndex: 1000,
