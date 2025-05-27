@@ -7,6 +7,7 @@ import { UserProvider } from './contexts/UserContext';
 const Home = lazy(() => import('./pages/Home'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/e/:eventId" element={<EventDetail />} />
           </Routes>
         </Suspense>
