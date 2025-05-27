@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import type { Event } from '../types/event.types';
 import type { Attendee } from '../types/attendee.types';
@@ -16,7 +16,9 @@ import AttendeeCounter from '../components/AttendeeCounter';
 import { useUser } from '../contexts/useUser';
 
 const EventDetail = () => {
+  const { user } = useUser();
   const { eventId } = useParams<{ eventId: string }>();
+  const navigate = useNavigate();
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,8 +31,6 @@ const EventDetail = () => {
   const checkoutModalRef = useRef<HTMLDivElement>(null);
   const successModalRef = useRef<HTMLDivElement>(null);
   const getTicketsBtnRef = useRef<HTMLButtonElement>(null);
-
-  const { user } = useUser();
 
   const rsvp = !!(user && attendees.some((a) => a.user_id === user.id));
 
@@ -65,6 +65,10 @@ const EventDetail = () => {
 
   const handleGetTickets = () => {
     setRsvpError(null);
+    if (!user) {
+      navigate('/login');
+      return;
+    }
     setShowCheckout(true);
   };
 
