@@ -1,17 +1,27 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import type { Event } from '../types/event.types';
+import type { Attendee } from '../types/attendee.types';
+import { fetchAttendeesByEventId } from '../api/api';
 import EventSummary from './EventSummary';
+import AttendeeCounter from './AttendeeCounter';
 
 type EventCardProps = {
   event: Event;
 };
 
 export default function EventCard({ event }: EventCardProps) {
+  const [attendees, setAttendees] = useState<Attendee[]>([]);
+
+  useEffect(() => {
+    fetchAttendeesByEventId(event.id).then(setAttendees);
+  }, [event.id]);
+
   return (
     <article
       className="card h-100"
       style={{
-        minWidth: '250px',
+        minWidth: '200px',
         maxWidth: '350px',
       }}
     >
@@ -31,6 +41,7 @@ export default function EventCard({ event }: EventCardProps) {
         )}
         <div className="card-body d-flex flex-column">
           <EventSummary event={event} showDescription={false} />
+          <AttendeeCounter attendees={attendees} />
         </div>
       </Link>
     </article>

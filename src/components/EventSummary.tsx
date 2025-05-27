@@ -24,6 +24,9 @@ const EventSummary = ({ event, showDescription = true }: EventSummaryProps) => {
           <div>{event.description}</div>
         </div>
       )}
+      <div className="mb-3">
+        {event.price === 0 ? 'Free' : <strong>£{event.price}</strong>}
+      </div>
     </article>
   );
 };

@@ -12,6 +12,7 @@ import CheckoutModal from '../components/CheckoutModal';
 import SuccessModal from '../components/SuccessModal';
 import AddToGoogleCalendarButton from '../components/AddToGoogleCalendarButton';
 import { formattedDateTime } from '../utils/formattedDateTime';
+import AttendeeCounter from '../components/AttendeeCounter';
 
 const EventDetail = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -92,8 +93,6 @@ const EventDetail = () => {
       </div>
     );
 
-  const going = attendees.filter((a) => a.status === 'attending');
-
   const handleBackdropClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     close: () => void
@@ -125,15 +124,7 @@ const EventDetail = () => {
             <address>{event.location}</address>
             <time dateTime={event.start_time}>{formattedDateTime(event)}</time>
           </div>
-          <div className="mb-3">
-            {going.length > 0 ? (
-              <span className="fw-semibold">{going.length} going</span>
-            ) : (
-              <span className="fw-semibold text-secondary">
-                Be the first to get tickets!
-              </span>
-            )}
-          </div>
+          <AttendeeCounter attendees={attendees} />
           <p className="mb-4 fs-5 fs-md-4">{event.description}</p>
           <button
             ref={getTicketsBtnRef}
