@@ -30,6 +30,8 @@ const EventDetail = () => {
   const successModalRef = useRef<HTMLDivElement>(null);
   const getTicketsBtnRef = useRef<HTMLButtonElement>(null);
 
+  const userId = '1';
+
   useEffect(() => {
     if (!eventId) return;
     setLoading(true);
@@ -69,7 +71,7 @@ const EventDetail = () => {
     setLoadingRsvp(true);
     setRsvpError(null);
     try {
-      await addAttendeeToEvent(eventId);
+      await addAttendeeToEvent(eventId, userId);
       setRsvp(true);
       setShowCheckout(false);
       setShowSuccess(true);

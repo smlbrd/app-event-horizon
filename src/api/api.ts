@@ -37,8 +37,14 @@ export async function fetchAttendeesByEventId(
   return data;
 }
 
-export async function addAttendeeToEvent(event_id: string) {
-  const response = await fetch(`${API_URL}/events/${event_id}/attendees`);
+export async function addAttendeeToEvent(event_id: string, user_id: string) {
+  const response = await fetch(`${API_URL}/events/${event_id}/attendees`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ user_id }),
+  });
 
   if (!response.ok) throw new Error('Failed to add attendee to event');
 
