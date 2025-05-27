@@ -13,9 +13,7 @@ const AttendeeCounter = ({ attendees }: AttendeeCounterProps) => {
     <div className="text-start mb-3">
       {attendingCount > 0 ? (
         <span className="fw-semibold">{attendingCount} going</span>
-      ) : (
-        ''
-      )}
+      ) : null}
     </div>
   );
 };
