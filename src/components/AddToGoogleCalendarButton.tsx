@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Event } from '../types/event.types';
 
 interface AddToGoogleCalendarButtonProps {
@@ -7,11 +6,11 @@ interface AddToGoogleCalendarButtonProps {
   size?: 'sm' | 'lg';
 }
 
-const AddToGoogleCalendarButton: React.FC<AddToGoogleCalendarButtonProps> = ({
+const AddToGoogleCalendarButton = ({
   event,
   className = '',
   size,
-}) => {
+}: AddToGoogleCalendarButtonProps) => {
   const toGoogleDateTime = (dateStr: string) => {
     const date = new Date(dateStr);
     return date
@@ -35,8 +34,8 @@ const AddToGoogleCalendarButton: React.FC<AddToGoogleCalendarButtonProps> = ({
   return (
     <button
       type="button"
-      className={`btn btn-success${size ? ` btn-${size}` : ''} ${className}`}
-      onClick={() => window.open(gcalUrl, '_blank', 'noopener')}
+      className={`btn btn-success ${size ? ` btn-${size}` : ''} ${className}`}
+      onClick={() => window.open(gcalUrl, '_blank', 'noopener, noreferrer')}
     >
       Add to Google Calendar
     </button>
