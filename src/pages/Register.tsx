@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createUser } from '../api/api';
 import { useUser } from '../contexts/useUser';
+import eventHorizonLogo from '../assets/icons8-sun.svg';
 import splashImg1 from '../assets/login-splash1.jpeg';
 import splashImg2 from '../assets/login-splash2.jpeg';
 import splashImg3 from '../assets/login-splash3.jpeg';
@@ -99,6 +100,25 @@ const Register: React.FC = () => {
           alignItems: 'center',
         }}
       >
+        <div
+          className="d-flex align-items-center mb-4"
+          style={{ gap: '0.75rem', justifyContent: 'flex-start' }}
+        >
+          <img
+            src={eventHorizonLogo}
+            alt="Event Horizon Logo"
+            style={{
+              height: 40,
+              width: 40,
+              objectFit: 'contain',
+              cursor: 'pointer',
+            }}
+          />
+          <span className="fs-3 fw-bold text-dark" style={{ lineHeight: 1 }}>
+            event horizon
+          </span>
+        </div>
+
         <h3 className="mb-4 text-center">Welcome!</h3>
         <form
           onSubmit={handleSubmit}
