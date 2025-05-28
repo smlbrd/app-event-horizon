@@ -110,7 +110,7 @@ const EventDetail = () => {
   return (
     <>
       <Header searchValue="" onSearchChange={() => {}} onSearch={() => {}} />
-      <main id="main-content" tabIndex={-1} className="container py-4">
+      <main id="main-content" tabIndex={-1} className="py-4">
         {event.image_url && (
           <img
             src={event.image_url}

@@ -4,8 +4,8 @@ import type { User } from '../types/user.types';
 
 const API_URL = 'https://event-horizon-api.up.railway.app/api';
 
-export async function createUserLogin(
-  username: string,
+export async function authenticateUser(
+  email: string,
   password: string
 ): Promise<{ user: User; token: string }> {
   const response = await fetch(`${API_URL}/login`, {
@@ -13,7 +13,7 @@ export async function createUserLogin(
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ email, password }),
   });
 
   if (!response.ok) {
@@ -81,16 +81,12 @@ export async function addAttendeeToEvent(
 }
 
 export async function createUser(
-  username: string,
-  password: string,
   email: string,
-  name: string
+  password: string
 ): Promise<{
   token: string;
   id: number;
-  username: string;
   email: string;
-  name: string;
   role: string;
 }> {
   const response = await fetch(`${API_URL}/register`, {
@@ -98,7 +94,7 @@ export async function createUser(
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ username, password, email, name }),
+    body: JSON.stringify({ email, password }),
   });
 
   const data = await response.json();

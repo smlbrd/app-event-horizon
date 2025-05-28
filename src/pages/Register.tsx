@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createUser } from '../api/api';
 import { useUser } from '../contexts/useUser';
@@ -12,8 +12,6 @@ const splashImages = [splashImg1, splashImg2, splashImg3];
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useUser();
-  const [username, setUsername] = useState('');
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -23,28 +21,33 @@ const Register: React.FC = () => {
     return splashImages[idx];
   });
 
+  useEffect(() => {
+    document.body.classList.add('no-scroll');
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    if (!username || !name || !email || !password) {
+    if (!email || !password) {
       setError('Please fill in all fields.');
       return;
     }
 
     try {
-      const data = await createUser(username, password, email, name);
+      const data = await createUser(email, password);
       localStorage.setItem('token', data.token);
       login({
         id: data.id.toString(),
-        username: data.username,
-        name: data.name,
         email: data.email,
         role: data.role,
       });
       navigate('/');
     } catch (e: unknown) {
-      console.log(e);
+      console.error(e);
       setError('Signup failed');
     }
   };
@@ -129,39 +132,10 @@ const Register: React.FC = () => {
             justifyContent: 'space-evenly',
             height: '100%',
             width: '90%',
+            alignSelf: 'center',
           }}
         >
           {error && <div className="alert alert-danger">{error}</div>}
-          <div className="mb-3">
-            <label
-              htmlFor="signup-username"
-              className="form-label visually-hidden"
-            >
-              Username
-            </label>
-            <input
-              id="signup-username"
-              className="form-control"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoFocus
-              autoComplete="username"
-              placeholder="Username"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="signup-name" className="form-label visually-hidden">
-              Name
-            </label>
-            <input
-              id="signup-name"
-              className="form-control"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoComplete="name"
-              placeholder="Name"
-            />
-          </div>
           <div className="mb-3">
             <label
               htmlFor="signup-email"
