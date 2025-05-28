@@ -6,6 +6,7 @@ import eventHorizonLogo from '../assets/icons8-sun.svg';
 import splashImg1 from '../assets/login-splash1.jpeg';
 import splashImg2 from '../assets/login-splash2.jpeg';
 import splashImg3 from '../assets/login-splash3.jpeg';
+import PasswordStrengthBar from '../components/PasswordStrengthBar';
 
 const splashImages = [splashImg1, splashImg2, splashImg3];
 
@@ -170,6 +171,7 @@ const Register: React.FC = () => {
               autoComplete="new-password"
             />
           </div>
+          <PasswordStrengthBar value={password} minLength={15} />
           <button className="btn btn-success w-100 mt-3" type="submit">
             Continue
           </button>
