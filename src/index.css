@@ -40,6 +40,22 @@ h1 {
   line-height: 1.1;
 }
 
+input {
+  background-color: #f8f7fa;
+  color: #333;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(180deg);
+  cursor: pointer;
+}
+
+input[type='date'],
+input[type='time'] {
+  color-scheme: light;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;

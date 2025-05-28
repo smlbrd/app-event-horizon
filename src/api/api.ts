@@ -120,7 +120,7 @@ export async function fetchUserProfile(
 }
 
 export async function createNewEvent(
-  event: Omit<Event, 'id' | 'created_at' | 'updated_at'>
+  event: Omit<Event, 'id' | 'created_by'>
 ): Promise<Event> {
   const token = localStorage.getItem('token');
   const response = await fetch(`${API_URL}/events`, {
