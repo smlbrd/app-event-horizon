@@ -85,8 +85,8 @@ const Register: React.FC = () => {
           height: '100vh',
           zIndex: 1,
           background: 'rgba(128, 128, 128, 0.2)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
         }}
         aria-hidden="true"
       />
@@ -94,14 +94,17 @@ const Register: React.FC = () => {
       <div
         className="card"
         style={{
-          width: '25vw',
+          width: '80vw',
+          maxWidth: 500,
           height: '60vh',
-          padding: '2rem',
+          maxHeight: 600,
+          padding: '1.5rem',
           zIndex: 2,
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          margin: '2rem auto',
         }}
       >
         <div

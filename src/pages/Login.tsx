@@ -81,8 +81,8 @@ const Login: React.FC = () => {
           height: '100vh',
           zIndex: 1,
           background: 'rgba(128, 128, 128, 0.2)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
         }}
         aria-hidden="true"
       />
@@ -90,8 +90,10 @@ const Login: React.FC = () => {
       <div
         className="card"
         style={{
-          width: '25vw',
+          width: '80vw',
+          maxWidth: 500,
           height: '60vh',
+          maxHeight: 600,
           padding: '2rem',
           zIndex: 2,
           position: 'relative',
