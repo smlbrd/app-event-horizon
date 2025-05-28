@@ -95,11 +95,16 @@ const CreateEvent: React.FC = () => {
       return;
     }
 
-    await createNewEvent({
-      ...form,
-      start_time,
-      end_time,
-    });
+    try {
+      await createNewEvent({
+        ...form,
+        start_time,
+        end_time,
+      });
+    } catch (err) {
+      console.error('Error creating event:', err);
+      setError('Failed to create event. Please try again later.');
+    }
 
     navigate('/');
   };

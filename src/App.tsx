@@ -3,12 +3,13 @@ import { Suspense, lazy } from 'react';
 import './App.css';
 import SkipToContent from './components/SkipToContent';
 import { UserProvider } from './contexts/UserContext';
-import CreateEvent from './pages/CreateEvent';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const Home = lazy(() => import('./pages/Home'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
+const CreateEvent = lazy(() => import('./pages/CreateEvent'));
 
 function App() {
   return (
@@ -21,7 +22,14 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/e/:eventId" element={<EventDetail />} />
-            <Route path="/create" element={<CreateEvent />} />
+            <Route
+              path="/create"
+              element={
+                <ProtectedRoute>
+                  <CreateEvent />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Suspense>
       </UserProvider>
