@@ -29,6 +29,12 @@ body {
   padding-top: var(--header-height);
 }
 
+body.no-scroll,
+html.no-scroll {
+  overflow: hidden !important;
+  height: 100%;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

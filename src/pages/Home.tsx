@@ -9,14 +9,16 @@ const Home = () => {
   const handleSearch = (value?: string) => setSearch(value ?? searchInput);
 
   return (
-    <main id="main-content" tabIndex={-1} className="container py-4">
+    <>
       <Header
         searchValue={searchInput}
         onSearchChange={setSearchInput}
         onSearch={handleSearch}
       />
-      <EventList search={search} />
-    </main>
+      <main id="main-content" tabIndex={-1} className="py-5">
+        <EventList search={search} />
+      </main>
+    </>
   );
 };
 

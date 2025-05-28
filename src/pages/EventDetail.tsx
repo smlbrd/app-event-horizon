@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import type { Event } from '../types/event.types';
 import type { Attendee } from '../types/attendee.types';
@@ -13,13 +13,15 @@ import SuccessModal from '../components/SuccessModal';
 import AddToGoogleCalendarButton from '../components/AddToGoogleCalendarButton';
 import { formattedDateTime } from '../utils/formattedDateTime';
 import AttendeeCounter from '../components/AttendeeCounter';
+import { useUser } from '../contexts/useUser';
 
 const EventDetail = () => {
+  const { user } = useUser();
   const { eventId } = useParams<{ eventId: string }>();
+  const navigate = useNavigate();
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [rsvp, setRsvp] = useState(false);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
   const [showCheckout, setShowCheckout] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -30,7 +32,7 @@ const EventDetail = () => {
   const successModalRef = useRef<HTMLDivElement>(null);
   const getTicketsBtnRef = useRef<HTMLButtonElement>(null);
 
-  const userId = '1';
+  const rsvp = !!(user && attendees.some((a) => a.user_id === user.id));
 
   useEffect(() => {
     if (!eventId) return;
@@ -63,24 +65,27 @@ const EventDetail = () => {
 
   const handleGetTickets = () => {
     setRsvpError(null);
+    if (!user) {
+      navigate('/login');
+      return;
+    }
     setShowCheckout(true);
   };
 
   const handleConfirmRsvp = async () => {
-    if (!eventId) return;
+    if (!eventId || !user) return;
     setLoadingRsvp(true);
     setRsvpError(null);
     try {
-      await addAttendeeToEvent(eventId, userId);
-      setRsvp(true);
+      await addAttendeeToEvent(eventId, user.id, 'attending');
       setShowCheckout(false);
       setShowSuccess(true);
       fetchAttendeesByEventId(eventId)
         .then(setAttendees)
         .catch(() => {});
-    } catch (e) {
+    } catch (e: unknown) {
+      console.log(e);
       setRsvpError('Failed to confirm RSVP. Please try again later.');
-      console.log('RSVP error:', e);
       setShowCheckout(true);
     } finally {
       setLoadingRsvp(false);
@@ -105,7 +110,7 @@ const EventDetail = () => {
   return (
     <>
       <Header searchValue="" onSearchChange={() => {}} onSearch={() => {}} />
-      <main id="main-content" tabIndex={-1} className="container py-4">
+      <main id="main-content" tabIndex={-1} className="py-4">
         {event.image_url && (
           <img
             src={event.image_url}
