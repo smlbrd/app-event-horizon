@@ -49,7 +49,10 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
   };
 
   return (
-    <header className="border-bottom fixed-top py-2 px-4">
+    <header
+      className="border-bottom fixed-top py-2 px-4"
+      style={{ zIndex: 900, backgroundColor: '#fff' }}
+    >
       <div className="d-flex flex-row align-items-center justify-content-between flex-wrap py-2">
         <div className="d-flex align-items-center flex-shrink-0 me-2">
           <Link

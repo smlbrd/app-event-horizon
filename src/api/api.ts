@@ -118,3 +118,21 @@ export async function fetchUserProfile(
   if (!response.ok) throw new Error('Failed to fetch user profile');
   return response.json();
 }
+
+export async function createNewEvent(
+  event: Omit<Event, 'id' | 'created_by'>
+): Promise<Event> {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_URL}/events`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(event),
+  });
+
+  if (!response.ok) throw new Error('Failed to create event');
+
+  return response.json();
+}
