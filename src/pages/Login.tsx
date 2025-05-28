@@ -94,12 +94,13 @@ const Login: React.FC = () => {
           maxWidth: 500,
           height: '60vh',
           maxHeight: 600,
-          padding: '2rem',
+          padding: '1.5rem',
           zIndex: 2,
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          backgroundColor: 'rgba(255, 255, 255, 0.7)',
         }}
       >
         <div
@@ -113,7 +114,6 @@ const Login: React.FC = () => {
               height: 40,
               width: 40,
               objectFit: 'contain',
-              cursor: 'pointer',
             }}
           />
           <span className="fs-3 fw-bold text-dark" style={{ lineHeight: 1 }}>

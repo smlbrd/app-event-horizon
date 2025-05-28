@@ -105,6 +105,7 @@ const Register: React.FC = () => {
           flexDirection: 'column',
           alignItems: 'center',
           margin: '2rem auto',
+          backgroundColor: 'rgba(255, 255, 255, 0.7)',
         }}
       >
         <div
@@ -118,7 +119,6 @@ const Register: React.FC = () => {
               height: 40,
               width: 40,
               objectFit: 'contain',
-              cursor: 'pointer',
             }}
           />
           <span className="fs-3 fw-bold text-dark" style={{ lineHeight: 1 }}>
