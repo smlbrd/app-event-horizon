@@ -136,3 +136,34 @@ export async function createNewEvent(
 
   return response.json();
 }
+
+export async function updateEventById(
+  event_id: string,
+  event: Partial<Omit<Event, 'id' | 'created_by'>>
+): Promise<Event> {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_URL}/events/${event_id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(event),
+  });
+
+  if (!response.ok) throw new Error('Failed to update event');
+
+  return response.json();
+}
+
+export async function deleteEventById(event_id: string): Promise<void> {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_URL}/events/${event_id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) throw new Error('Failed to delete event');
+}

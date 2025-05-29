@@ -15,6 +15,17 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
     ref: ForwardedRef<HTMLDivElement>
   ) => {
     useEffect(() => {
+      if (!show) return;
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          onClose();
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [show, onClose]);
+
+    useEffect(() => {
       if (show) {
         document.body.classList.add('modal-blur-active');
       } else {
@@ -39,7 +50,6 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
     return (
       <div
         className="modal fade show"
-        style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }}
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledBy}
