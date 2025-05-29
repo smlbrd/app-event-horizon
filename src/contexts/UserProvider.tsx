@@ -1,22 +1,7 @@
-import {
-  createContext,
-  useState,
-  useMemo,
-  useEffect,
-  type ReactNode,
-} from 'react';
+import { useState, useMemo, useEffect, type ReactNode } from 'react';
 import type { User } from '../types/user.types';
 import { fetchUserProfile } from '../api/api';
-
-interface UserContextValue {
-  user: User | null;
-  login: (user: User) => void;
-  logout: () => void;
-}
-
-export const UserContext = createContext<UserContextValue | undefined>(
-  undefined
-);
+import { UserContext } from './UserContext';
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);

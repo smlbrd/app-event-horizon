@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import './App.css';
 import SkipToContent from './components/SkipToContent';
-import { UserProvider } from './contexts/UserContext';
+import { UserProvider } from './contexts/UserProvider';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const Home = lazy(() => import('./pages/Home'));
