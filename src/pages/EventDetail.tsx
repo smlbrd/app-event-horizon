@@ -39,7 +39,12 @@ const EventDetail = () => {
   const getTicketsBtnRef = useRef<HTMLButtonElement>(null);
 
   const rsvp = !!(user && attendees.some((a) => a.user_id === user.id));
-  const isCreator = user && event && user.id === event.created_by;
+  const canEdit =
+    user &&
+    event &&
+    (user.id === event.created_by ||
+      user.role === 'admin' ||
+      user.role === 'staff');
 
   useEffect(() => {
     if (!eventId) return;
@@ -175,7 +180,7 @@ const EventDetail = () => {
           className="text-start position-relative"
           aria-labelledby="event-title"
         >
-          {isCreator && !editMode && (
+          {canEdit && !editMode && (
             <button
               className="btn btn-sm btn-outline-secondary position-absolute"
               style={{ top: 0, right: 0, zIndex: 2 }}
