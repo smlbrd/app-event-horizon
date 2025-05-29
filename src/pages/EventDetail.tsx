@@ -393,7 +393,7 @@ const EventDetail = () => {
                 setTimeout(() => {
                   setShowToast(false);
                   navigate('/');
-                }, 2000);
+                }, 3000);
               }}
             >
               Delete
@@ -408,6 +408,7 @@ const EventDetail = () => {
         role="alert"
         aria-live="assertive"
         aria-atomic="true"
+        tabIndex={0}
         style={{ zIndex: 9999, minWidth: 200 }}
       >
         <div className="d-flex">
@@ -415,7 +416,7 @@ const EventDetail = () => {
           <button
             type="button"
             className="btn-close btn-close-white me-2 m-auto"
-            aria-label="Close"
+            aria-label="Close toast"
             onClick={() => setShowToast(false)}
           ></button>
         </div>
