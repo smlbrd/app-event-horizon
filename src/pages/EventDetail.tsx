@@ -6,6 +6,7 @@ import {
   fetchEventById,
   fetchAttendeesByEventId,
   addAttendeeToEvent,
+  updateEventById,
 } from '../api/api';
 import Header from '../components/Header';
 import CheckoutModal from '../components/CheckoutModal';
@@ -28,11 +29,17 @@ const EventDetail = () => {
   const [loadingRsvp, setLoadingRsvp] = useState(false);
   const [rsvpError, setRsvpError] = useState<string | null>(null);
 
+  const [editMode, setEditMode] = useState(false);
+  const [editForm, setEditForm] = useState<Event | null>(null);
+  const [editError, setEditError] = useState<string | null>(null);
+  const [editLoading, setEditLoading] = useState(false);
+
   const checkoutModalRef = useRef<HTMLDivElement>(null);
   const successModalRef = useRef<HTMLDivElement>(null);
   const getTicketsBtnRef = useRef<HTMLButtonElement>(null);
 
   const rsvp = !!(user && attendees.some((a) => a.user_id === user.id));
+  const isCreator = user && event && user.id === event.created_by;
 
   useEffect(() => {
     if (!eventId) return;
@@ -62,6 +69,47 @@ const EventDetail = () => {
       getTicketsBtnRef.current.focus();
     }
   }, [showCheckout]);
+
+  const handleEditClick = () => {
+    setEditForm(event);
+    setEditMode(true);
+    setEditError(null);
+  };
+
+  const handleEditChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (!editForm) return;
+    const { name, value } = e.target;
+    setEditForm({
+      ...editForm,
+      [name]: name === 'price' ? Number(value) : value,
+    });
+  };
+
+  const handleEditCancel = () => {
+    setEditMode(false);
+    setEditForm(null);
+    setEditError(null);
+  };
+
+  const handleEditSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!eventId || !editForm) return;
+    setEditLoading(true);
+    setEditError(null);
+    try {
+      const updated = await updateEventById(eventId, editForm);
+      setEvent(updated);
+      setEditMode(false);
+      setEditForm(null);
+    } catch (e) {
+      console.error('Error updating event:', e);
+      setEditError('Failed to update event. Please try again.');
+    } finally {
+      setEditLoading(false);
+    }
+  };
 
   const handleGetTickets = () => {
     setRsvpError(null);
@@ -123,28 +171,142 @@ const EventDetail = () => {
             }}
           />
         )}
-        <section className="text-start" aria-labelledby="event-title">
-          <h1 id="event-title" className="fw-bold mb-3 display-5 display-md-3">
-            {event.title}
-          </h1>
-          <div className="mb-3 text-muted">
-            <address>{event.location}</address>
-            <time dateTime={event.start_time}>{formattedDateTime(event)}</time>
-          </div>
-          <AttendeeCounter attendees={attendees} />
-          <p className="mb-4 fs-5 fs-md-4">{event.description}</p>
-          <button
-            ref={getTicketsBtnRef}
-            className="btn btn-orange btn-lg px-4 me-2"
-            onClick={handleGetTickets}
-            disabled={rsvp}
-            aria-pressed={rsvp}
-            aria-live="polite"
-          >
-            {rsvp ? 'Going!' : 'Get Tickets'}
-          </button>
-          {rsvp && (
-            <AddToGoogleCalendarButton event={event} className="btn-lg px-4" />
+        <section
+          className="text-start position-relative"
+          aria-labelledby="event-title"
+        >
+          {isCreator && !editMode && (
+            <button
+              className="btn btn-sm btn-outline-secondary position-absolute"
+              style={{ top: 0, right: 0, zIndex: 2 }}
+              onClick={handleEditClick}
+              aria-label="Edit event"
+            >
+              ✏️ Edit
+            </button>
+          )}
+
+          {editMode && editForm ? (
+            <form onSubmit={handleEditSave} className="mb-4">
+              {editError && (
+                <div className="alert alert-danger">{editError}</div>
+              )}
+              <input
+                className="form-control mb-2"
+                name="title"
+                value={editForm.title}
+                onChange={handleEditChange}
+                placeholder={event.title}
+                required
+              />
+              <textarea
+                className="form-control mb-2"
+                name="description"
+                value={editForm.description}
+                onChange={handleEditChange}
+                placeholder={event.description}
+                required
+                rows={3}
+              />
+              <input
+                className="form-control mb-2"
+                name="location"
+                value={editForm.location}
+                onChange={handleEditChange}
+                placeholder={event.location}
+                required
+              />
+              <input
+                className="form-control mb-2"
+                name="price"
+                type="number"
+                value={editForm.price}
+                onChange={handleEditChange}
+                placeholder={String(event.price)}
+                min={0}
+                required
+              />
+              <input
+                className="form-control mb-2"
+                name="start_time"
+                type="datetime-local"
+                value={editForm.start_time.slice(0, 16)}
+                onChange={handleEditChange}
+                required
+              />
+              <input
+                className="form-control mb-2"
+                name="end_time"
+                type="datetime-local"
+                value={editForm.end_time.slice(0, 16)}
+                onChange={handleEditChange}
+                required
+              />
+              <input
+                className="form-control mb-2"
+                name="image_url"
+                value={editForm.image_url || ''}
+                onChange={handleEditChange}
+                placeholder={event.image_url || ''}
+              />
+              <input
+                className="form-control mb-2"
+                name="image_alt_text"
+                value={editForm.image_alt_text || ''}
+                onChange={handleEditChange}
+                placeholder={event.image_alt_text || ''}
+              />
+              <div className="d-flex gap-2 mt-2">
+                <button
+                  className="btn btn-success"
+                  type="submit"
+                  disabled={editLoading}
+                >
+                  Save
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                  onClick={handleEditCancel}
+                  disabled={editLoading}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : (
+            <>
+              <h1
+                id="event-title"
+                className="fw-bold mb-3 display-5 display-md-3"
+              >
+                {event.title}
+              </h1>
+              <div className="mb-3 text-muted">
+                <address>{event.location}</address>
+                <time dateTime={event.start_time}>
+                  {formattedDateTime(event)}
+                </time>
+              </div>
+              <AttendeeCounter attendees={attendees} />
+              <p className="mb-4 fs-5 fs-md-4">{event.description}</p>
+              <button
+                ref={getTicketsBtnRef}
+                className="btn btn-orange btn-lg px-4 me-2"
+                onClick={handleGetTickets}
+                disabled={rsvp}
+                aria-pressed={rsvp}
+                aria-live="polite"
+              >
+                {rsvp ? 'Going!' : 'Get Tickets'}
+              </button>
+              {rsvp && (
+                <AddToGoogleCalendarButton
+                  event={event}
+                  className="btn-lg px-4"
+                />
+              )}
+            </>
           )}
         </section>
       </main>
