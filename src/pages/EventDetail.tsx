@@ -12,11 +12,11 @@ import {
 import Header from '../components/Header';
 import CheckoutModal from '../components/CheckoutModal';
 import SuccessModal from '../components/SuccessModal';
+import DeleteEventModal from '../components/DeleteEventModal';
 import AddToGoogleCalendarButton from '../components/AddToGoogleCalendarButton';
 import { formattedDateTime } from '../utils/formattedDateTime';
 import AttendeeCounter from '../components/AttendeeCounter';
 import { useUser } from '../contexts/useUser';
-import Modal from '../components/Modal';
 
 const EventDetail = () => {
   const { user } = useUser();
@@ -359,48 +359,21 @@ const EventDetail = () => {
         />
       )}
 
-      <Modal
+      <DeleteEventModal
         show={showDelete}
         onClose={() => setShowDelete(false)}
-        onBackdropClick={(e) => {
-          if (e.target === e.currentTarget) setShowDelete(false);
+        loading={editLoading}
+        onDelete={async () => {
+          await handleDeleteEvent(event.id);
+          setShowDelete(false);
+          setShowToast(true);
+          setTimeout(() => {
+            setShowToast(false);
+            navigate('/');
+          }, 3000);
         }}
-        labelledBy="delete-modal-title"
-      >
-        <div className="p-4 text-center">
-          <h5 id="delete-modal-title" className="mb-3">
-            Delete Event
-          </h5>
-          <p>
-            Are you sure you want to delete this event? This action cannot be
-            undone.
-          </p>
-          <div className="d-flex gap-2 justify-content-center mt-4">
-            <button
-              className="btn btn-secondary"
-              type="button"
-              onClick={() => setShowDelete(false)}
-            >
-              Cancel
-            </button>
-            <button
-              className="btn btn-danger"
-              type="button"
-              onClick={async () => {
-                await handleDeleteEvent(event.id);
-                setShowDelete(false);
-                setShowToast(true);
-                setTimeout(() => {
-                  setShowToast(false);
-                  navigate('/');
-                }, 3000);
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </Modal>
+      />
+
       <div
         className={`toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-4 ${
           showToast ? 'show' : ''
