@@ -7,6 +7,7 @@ import {
   fetchAttendeesByEventId,
   addAttendeeToEvent,
   updateEventById,
+  deleteEventById,
 } from '../api/api';
 import Header from '../components/Header';
 import CheckoutModal from '../components/CheckoutModal';
@@ -15,6 +16,7 @@ import AddToGoogleCalendarButton from '../components/AddToGoogleCalendarButton';
 import { formattedDateTime } from '../utils/formattedDateTime';
 import AttendeeCounter from '../components/AttendeeCounter';
 import { useUser } from '../contexts/useUser';
+import Modal from '../components/Modal';
 
 const EventDetail = () => {
   const { user } = useUser();
@@ -26,6 +28,8 @@ const EventDetail = () => {
   const [attendees, setAttendees] = useState<Attendee[]>([]);
   const [showCheckout, setShowCheckout] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [loadingRsvp, setLoadingRsvp] = useState(false);
   const [rsvpError, setRsvpError] = useState<string | null>(null);
 
@@ -113,6 +117,16 @@ const EventDetail = () => {
       setEditError('Failed to update event. Please try again.');
     } finally {
       setEditLoading(false);
+    }
+  };
+
+  const handleDeleteEvent = async (eventId: string) => {
+    try {
+      await deleteEventById(eventId);
+      // Optionally show a success message here
+    } catch (e) {
+      console.error('Error deleting event:', e);
+      setEditError('Failed to delete event. Please try again.');
     }
   };
 
@@ -277,16 +291,25 @@ const EventDetail = () => {
                 >
                   Cancel
                 </button>
+                <button
+                  className="btn btn-danger ms-auto"
+                  type="button"
+                  onClick={() => setShowDelete(true)}
+                  disabled={editLoading}
+                >
+                  Delete
+                </button>
               </div>
             </form>
           ) : (
             <>
-              <h1
+              <h3
                 id="event-title"
                 className="fw-bold mb-3 display-5 display-md-3"
+                style={{ maxWidth: '90%' }}
               >
                 {event.title}
-              </h1>
+              </h3>
               <div className="mb-3 text-muted">
                 <address>{event.location}</address>
                 <time dateTime={event.start_time}>
@@ -335,6 +358,68 @@ const EventDetail = () => {
           event={event}
         />
       )}
+
+      <Modal
+        show={showDelete}
+        onClose={() => setShowDelete(false)}
+        onBackdropClick={(e) => {
+          if (e.target === e.currentTarget) setShowDelete(false);
+        }}
+        labelledBy="delete-modal-title"
+      >
+        <div className="p-4 text-center">
+          <h5 id="delete-modal-title" className="mb-3">
+            Delete Event
+          </h5>
+          <p>
+            Are you sure you want to delete this event? This action cannot be
+            undone.
+          </p>
+          <div className="d-flex gap-2 justify-content-center mt-4">
+            <button
+              className="btn btn-secondary"
+              type="button"
+              onClick={() => setShowDelete(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-danger"
+              type="button"
+              onClick={async () => {
+                await handleDeleteEvent(event.id);
+                setShowDelete(false);
+                setShowToast(true);
+                setTimeout(() => {
+                  setShowToast(false);
+                  navigate('/');
+                }, 2000);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
+      <div
+        className={`toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-4 ${
+          showToast ? 'show' : ''
+        }`}
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+        style={{ zIndex: 9999, minWidth: 200 }}
+      >
+        <div className="d-flex">
+          <div className="toast-body">Event deleted!</div>
+          <button
+            type="button"
+            className="btn-close btn-close-white me-2 m-auto"
+            aria-label="Close"
+            onClick={() => setShowToast(false)}
+          ></button>
+        </div>
+      </div>
     </>
   );
 };

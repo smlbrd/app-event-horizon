@@ -155,3 +155,15 @@ export async function updateEventById(
 
   return response.json();
 }
+
+export async function deleteEventById(event_id: string): Promise<void> {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_URL}/events/${event_id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) throw new Error('Failed to delete event');
+}
