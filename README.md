@@ -27,9 +27,8 @@ npm install
 npm run dev
 ```
 
-A terminal message with a link to the local server (e.g. "Local: http://localhost:5173/") will open a live preview of the app.
+A terminal message with a link to the local server (e.g. `Local: http://localhost:5173/`) will open a live preview of the app.
 
----
 
 ## Project Structure
 
