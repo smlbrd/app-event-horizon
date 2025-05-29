@@ -1,54 +1,51 @@
-# Event Horizon
+# Event Horizon App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Event Horizon is responsive and accessible cross-platform events management application built with React, TypeScript, and Bootstrap.
 
-Currently, two official plugins are available:
+The app is [hosted online here.](https://event-horizon-app.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+- [Node.js](https://nodejs.org/) (v22+ recommended)
+- [npm](https://www.npmjs.com/)
+
+### Installation
+
+```bash
+git clone https://github.com/your-username/event-horizon.git
+cd event-horizon
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Running the App
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+```bash
+npm run dev
+```.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+A terminal message with a link to the local server (e.g. "Local: http://localhost:5173/") will open a live preview of the app.
+
+---
+
+## Project Structure
+
 ```
+src/
+  api/                   # API calls (fetchEvents, fetchAttendeesByEventId, etc.)
+  components/            # Reusable UI components (Header, EventCard, Modal, etc.)
+  contexts/              # React Contexts (UserContext)
+  pages/                 # Top-level pages (Login, Register, EventList, EventDetail)
+  types/                 # TypeScript type definitions (Event, User)
+  utils/                 # Utility functions (e.g., formattedDateTime)
+  main.tsx              # App entry point
+```
+
+## Acknowledgements
+
+- [React](https://react.dev/)
+- [Bootstrap](https://getbootstrap.com/)
+- [TypeScript](https://www.typescriptlang.org/)
