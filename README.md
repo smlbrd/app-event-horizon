@@ -25,7 +25,7 @@ npm install
 
 ```bash
 npm run dev
-```.
+```
 
 A terminal message with a link to the local server (e.g. "Local: http://localhost:5173/") will open a live preview of the app.
 
@@ -35,10 +35,11 @@ A terminal message with a link to the local server (e.g. "Local: http://localhos
 
 ```
 src/
-  api/                   # API calls (fetchEvents, fetchAttendeesByEventId, etc.)
-  components/            # Reusable UI components (Header, EventCard, Modal, etc.)
+  api/                   # API calls (e.g. fetchEvents, fetchAttendeesByEventId)
+  assets/                # Icons and assets (e.g. icons, splash gallery images)
+  components/            # Reusable UI components (e.g. Header, EventCard, Modal)
   contexts/              # React Contexts (UserContext)
-  pages/                 # Top-level pages (Login, Register, EventList, EventDetail)
+  pages/                 # Top-level pages (e.g. Login, Register, EventList, EventDetail)
   types/                 # TypeScript type definitions (Event, User)
   utils/                 # Utility functions (e.g., formattedDateTime)
   main.tsx              # App entry point
