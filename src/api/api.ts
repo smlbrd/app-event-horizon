@@ -47,6 +47,18 @@ export async function fetchEventById(event_id: string): Promise<Event> {
   return data;
 }
 
+export async function fetchEventsForUser(user_id: string): Promise<Event[]> {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_URL}/users/${user_id}/events`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) throw new Error('Failed to fetch user events');
+  return response.json();
+}
+
 export async function fetchAttendeesByEventId(
   event_id: string
 ): Promise<Attendee[]> {
