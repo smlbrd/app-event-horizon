@@ -34,7 +34,7 @@ const Register: React.FC = () => {
     e.preventDefault();
     setError(null);
 
-    if (!email || !password) {
+    if (!email || !password || !name) {
       setError('Please fill in all fields.');
       return;
     }

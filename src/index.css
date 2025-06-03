@@ -93,9 +93,3 @@ button:focus-visible {
     --header-height: 3rem;
   }
 }
-
-.modal-blur-active #root > *:not(.modal-backdrop):not(.modal):not(.modal.show) {
-  filter: blur(6px);
-  pointer-events: none;
-  user-select: none;
-}

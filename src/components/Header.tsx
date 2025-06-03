@@ -113,6 +113,7 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
               <img
                 src={userIcon}
                 alt="Open user menu"
+                className="me-2 rounded-circle"
                 style={{ height: 40, cursor: 'pointer' }}
                 onClick={handleLogoClick}
                 tabIndex={0}

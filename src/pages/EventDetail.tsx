@@ -17,6 +17,7 @@ import AddToGoogleCalendarButton from '../components/AddToGoogleCalendarButton';
 import { formattedDateTime } from '../utils/formattedDateTime';
 import AttendeeCounter from '../components/AttendeeCounter';
 import { useUser } from '../contexts/useUser';
+import AttendeesModal from '../components/AttendeeModal';
 
 const EventDetail = () => {
   const { user } = useUser();
@@ -26,9 +27,12 @@ const EventDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
+
   const [showCheckout, setShowCheckout] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showAttendeesModal, setShowAttendeesModal] = useState(false);
+
   const [showToast, setShowToast] = useState(false);
   const [loadingRsvp, setLoadingRsvp] = useState(false);
   const [rsvpError, setRsvpError] = useState<string | null>(null);
@@ -123,7 +127,6 @@ const EventDetail = () => {
   const handleDeleteEvent = async (eventId: string) => {
     try {
       await deleteEventById(eventId);
-      // Optionally show a success message here
     } catch (e) {
       console.error('Error deleting event:', e);
       setEditError('Failed to delete event. Please try again.');
@@ -327,7 +330,15 @@ const EventDetail = () => {
                   - {formattedDateTime(event)[1]}
                 </time>
               </div>
-              <AttendeeCounter attendees={attendees} />
+              <AttendeeCounter
+                attendees={attendees}
+                onShowAttendees={() => setShowAttendeesModal(true)}
+              />
+              <AttendeesModal
+                show={showAttendeesModal}
+                onClose={() => setShowAttendeesModal(false)}
+                attendees={attendees}
+              />
               <p className="mb-4 fs-5 fs-md-4">{event.description}</p>
               <button
                 ref={getTicketsBtnRef}
