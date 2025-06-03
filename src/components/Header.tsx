@@ -113,6 +113,7 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
               <img
                 src={userIcon}
                 alt="Open user menu"
+                className="me-2 rounded-circle"
                 style={{ height: 40, cursor: 'pointer' }}
                 onClick={handleLogoClick}
                 tabIndex={0}
@@ -135,13 +136,21 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
                   role="menu"
                   tabIndex={-1}
                 >
+                  <li
+                    className="dropdown-item text-muted"
+                    role="presentation"
+                    tabIndex={-1}
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    Hi, {user.name}!
+                  </li>
                   <li role="menuitem">
                     <Link
                       to="/create"
                       className="dropdown-item"
                       onClick={() => setDropdownOpen(false)}
                     >
-                      Create New
+                      Create New Event
                     </Link>
                   </li>
                   <li role="menuitem">

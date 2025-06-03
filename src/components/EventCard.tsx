@@ -39,7 +39,7 @@ export default function EventCard({ event }: EventCardProps) {
             style={{ objectFit: 'cover' }}
           />
         )}
-        <div className="card-body d-flex flex-column">
+        <div className="card-body d-flex flex-column text-start">
           <EventSummary event={event} showDescription={false} />
           <AttendeeCounter attendees={attendees} />
         </div>

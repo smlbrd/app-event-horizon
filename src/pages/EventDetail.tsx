@@ -17,18 +17,26 @@ import AddToGoogleCalendarButton from '../components/AddToGoogleCalendarButton';
 import { formattedDateTime } from '../utils/formattedDateTime';
 import AttendeeCounter from '../components/AttendeeCounter';
 import { useUser } from '../contexts/useUser';
+import AttendeesModal from '../components/AttendeeModal';
 
 const EventDetail = () => {
+  const navigate = useNavigate();
   const { user } = useUser();
   const { eventId } = useParams<{ eventId: string }>();
-  const navigate = useNavigate();
+
   const [event, setEvent] = useState<Event | null>(null);
+  const [attendees, setAttendees] = useState<Attendee[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [attendees, setAttendees] = useState<Attendee[]>([]);
-  const [showCheckout, setShowCheckout] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
+
+  const [searchInput, setSearchInput] = useState('');
+
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showAttendeesModal, setShowAttendeesModal] = useState(false);
+
   const [showToast, setShowToast] = useState(false);
   const [loadingRsvp, setLoadingRsvp] = useState(false);
   const [rsvpError, setRsvpError] = useState<string | null>(null);
@@ -65,19 +73,19 @@ const EventDetail = () => {
   }, [eventId]);
 
   useEffect(() => {
-    if (showCheckout && checkoutModalRef.current) {
+    if (showCheckoutModal && checkoutModalRef.current) {
       checkoutModalRef.current.focus();
     }
-    if (showSuccess && successModalRef.current) {
+    if (showSuccessModal && successModalRef.current) {
       successModalRef.current.focus();
     }
-  }, [showCheckout, showSuccess]);
+  }, [showCheckoutModal, showSuccessModal]);
 
   useEffect(() => {
-    if (!showCheckout && getTicketsBtnRef.current) {
+    if (!showCheckoutModal && getTicketsBtnRef.current) {
       getTicketsBtnRef.current.focus();
     }
-  }, [showCheckout]);
+  }, [showCheckoutModal]);
 
   const handleEditClick = () => {
     setEditForm(event);
@@ -123,7 +131,6 @@ const EventDetail = () => {
   const handleDeleteEvent = async (eventId: string) => {
     try {
       await deleteEventById(eventId);
-      // Optionally show a success message here
     } catch (e) {
       console.error('Error deleting event:', e);
       setEditError('Failed to delete event. Please try again.');
@@ -136,7 +143,7 @@ const EventDetail = () => {
       navigate('/login');
       return;
     }
-    setShowCheckout(true);
+    setShowCheckoutModal(true);
   };
 
   const handleConfirmRsvp = async () => {
@@ -145,15 +152,15 @@ const EventDetail = () => {
     setRsvpError(null);
     try {
       await addAttendeeToEvent(eventId, user.id, 'attending');
-      setShowCheckout(false);
-      setShowSuccess(true);
+      setShowCheckoutModal(false);
+      setShowSuccessModal(true);
       fetchAttendeesByEventId(eventId)
         .then(setAttendees)
         .catch(() => {});
     } catch (e: unknown) {
       console.log(e);
       setRsvpError('Failed to confirm RSVP. Please try again later.');
-      setShowCheckout(true);
+      setShowCheckoutModal(true);
     } finally {
       setLoadingRsvp(false);
     }
@@ -174,9 +181,17 @@ const EventDetail = () => {
     if (e.target === e.currentTarget) close();
   };
 
+  const handleSearch = (value?: string) => {
+    navigate(`/?search=${encodeURIComponent(value ?? '')}`);
+  };
+
   return (
     <>
-      <Header searchValue="" onSearchChange={() => {}} onSearch={() => {}} />
+      <Header
+        searchValue={searchInput}
+        onSearchChange={setSearchInput}
+        onSearch={handleSearch}
+      />
       <main id="main-content" tabIndex={-1} className="py-4">
         {event.image_url && (
           <img
@@ -294,7 +309,7 @@ const EventDetail = () => {
                 <button
                   className="btn btn-danger ms-auto"
                   type="button"
-                  onClick={() => setShowDelete(true)}
+                  onClick={() => setShowDeleteModal(true)}
                   disabled={editLoading}
                 >
                   Delete
@@ -327,7 +342,15 @@ const EventDetail = () => {
                   - {formattedDateTime(event)[1]}
                 </time>
               </div>
-              <AttendeeCounter attendees={attendees} />
+              <AttendeeCounter
+                attendees={attendees}
+                onShowAttendees={() => setShowAttendeesModal(true)}
+              />
+              <AttendeesModal
+                show={showAttendeesModal}
+                onClose={() => setShowAttendeesModal(false)}
+                attendees={attendees}
+              />
               <p className="mb-4 fs-5 fs-md-4">{event.description}</p>
               <button
                 ref={getTicketsBtnRef}
@@ -352,31 +375,31 @@ const EventDetail = () => {
 
       <CheckoutModal
         ref={checkoutModalRef}
-        show={showCheckout}
+        show={showCheckoutModal}
         loading={loadingRsvp}
         error={rsvpError}
-        onCancel={() => setShowCheckout(false)}
+        onCancel={() => setShowCheckoutModal(false)}
         onConfirm={handleConfirmRsvp}
         onBackdropClick={(e) =>
-          handleBackdropClick(e, () => setShowCheckout(false))
+          handleBackdropClick(e, () => setShowCheckoutModal(false))
         }
       />
       {event && (
         <SuccessModal
           ref={successModalRef}
-          show={showSuccess}
-          onClose={() => setShowSuccess(false)}
+          show={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
           event={event}
         />
       )}
 
       <DeleteEventModal
-        show={showDelete}
-        onClose={() => setShowDelete(false)}
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
         loading={editLoading}
         onDelete={async () => {
           await handleDeleteEvent(event.id);
-          setShowDelete(false);
+          setShowDeleteModal(false);
           setShowToast(true);
           setTimeout(() => {
             setShowToast(false);

@@ -20,7 +20,6 @@ const EventSummary = ({ event, showDescription = true }: EventSummaryProps) => {
       </div>
       {showDescription && event.description && (
         <div className="mb-3">
-          <strong>Overview</strong>
           <div>{event.description}</div>
         </div>
       )}

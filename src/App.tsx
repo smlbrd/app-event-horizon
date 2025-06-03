@@ -10,6 +10,7 @@ const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const CreateEvent = lazy(() => import('./pages/CreateEvent'));
+const MyEvents = lazy(() => import('./pages/MyEvents'));
 
 function App() {
   return (
@@ -27,6 +28,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CreateEvent />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/my-events"
+              element={
+                <ProtectedRoute>
+                  <MyEvents />
                 </ProtectedRoute>
               }
             />
