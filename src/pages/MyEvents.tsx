@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import EventList from '../components/EventList';
 import { fetchEventsForUser, fetchAttendeesByEventId } from '../api/api';
@@ -7,13 +8,15 @@ import type { Event } from '../types/event.types';
 import type { Attendee } from '../types/attendee.types';
 
 const MyEvents = () => {
-  const [searchInput, setSearchInput] = useState('');
-  const [search, setSearch] = useState('');
-  const [attendingEvents, setAttendingEvents] = useState<Event[]>([]);
-  const [notGoingEvents, setNotGoingEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const context = useContext(UserContext);
   const user = context?.user;
+  const [loading, setLoading] = useState(true);
+
+  const [searchInput, setSearchInput] = useState('');
+
+  const [attendingEvents, setAttendingEvents] = useState<Event[]>([]);
+  const [notGoingEvents, setNotGoingEvents] = useState<Event[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -50,7 +53,9 @@ const MyEvents = () => {
     );
   }
 
-  const handleSearch = (value?: string) => setSearch(value ?? searchInput);
+  const handleSearch = (value?: string) => {
+    navigate(`/?search=${encodeURIComponent(value ?? '')}`);
+  };
 
   return (
     <>
@@ -62,19 +67,11 @@ const MyEvents = () => {
       <main id="main-content" tabIndex={-1} className="mt-4 py-5">
         <div className="container">
           <h2>Attending</h2>
-          <EventList
-            search={search}
-            events={attendingEvents}
-            loading={loading}
-          />
+          <EventList events={attendingEvents} loading={loading} />
         </div>
         <div className="container">
           <h2 className="mt-2">Not Going</h2>
-          <EventList
-            search={search}
-            events={notGoingEvents}
-            loading={loading}
-          />
+          <EventList events={notGoingEvents} loading={loading} />
         </div>
       </main>
     </>

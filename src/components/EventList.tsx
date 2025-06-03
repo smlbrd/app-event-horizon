@@ -4,14 +4,14 @@ import type { Event } from '../types/event.types';
 import EventCard from './EventCard';
 
 interface EventListProps {
-  search: string;
+  search?: string;
   events?: Event[];
   loading?: boolean;
   error?: string | null;
 }
 
 const EventList = ({
-  search,
+  search = '',
   events: propEvents,
   loading: propLoading,
   error: propError,
