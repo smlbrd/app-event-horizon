@@ -30,6 +30,8 @@ const EventDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [searchInput, setSearchInput] = useState('');
+
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -179,9 +181,17 @@ const EventDetail = () => {
     if (e.target === e.currentTarget) close();
   };
 
+  const handleSearch = (value?: string) => {
+    navigate(`/?search=${encodeURIComponent(value ?? '')}`);
+  };
+
   return (
     <>
-      <Header searchValue="" onSearchChange={() => {}} onSearch={() => {}} />
+      <Header
+        searchValue={searchInput}
+        onSearchChange={setSearchInput}
+        onSearch={handleSearch}
+      />
       <main id="main-content" tabIndex={-1} className="py-4">
         {event.image_url && (
           <img

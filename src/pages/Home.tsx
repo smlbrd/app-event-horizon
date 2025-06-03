@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import EventList from '../components/EventList';
 import Footer from '../components/Footer';
 
 const Home = () => {
-  const [searchInput, setSearchInput] = useState('');
-  const [search, setSearch] = useState('');
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const searchParam = params.get('search') || '';
+
+  const [searchInput, setSearchInput] = useState(searchParam);
+  const [search, setSearch] = useState(searchParam);
 
   const handleSearch = (value?: string) => setSearch(value ?? searchInput);
+
+  useEffect(() => {
+    setSearchInput(searchParam);
+    setSearch(searchParam);
+  }, [searchParam]);
 
   return (
     <>
