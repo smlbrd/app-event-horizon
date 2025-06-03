@@ -51,6 +51,18 @@
   transition: box-shadow 0.1s;
 }
 
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #f8f7fa;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #333;
+  text-decoration: none;
+  z-index: 1000;
+}
+
 @media (max-width: 767.98px) {
   .header-title {
     font-size: 1.2rem;

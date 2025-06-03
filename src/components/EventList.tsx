@@ -33,9 +33,9 @@ const EventList = ({ search }: EventListProps) => {
 
   return (
     <section aria-labelledby="events-heading" className="mt-4 py-4">
-      <h2 id="events-heading" className="visually-hidden">
+      <h1 id="events-heading" className="visually-hidden">
         Events
-      </h2>
+      </h1>
       <ul className="row g-3 list-unstyled" aria-label="Event list" role="list">
         {filteredEvents.map((event) => (
           <li
