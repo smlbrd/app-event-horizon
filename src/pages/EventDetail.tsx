@@ -313,7 +313,11 @@ const EventDetail = () => {
               <div className="mb-3 text-muted">
                 <address>{event.location}</address>
                 <time dateTime={event.start_time}>
-                  {formattedDateTime(event)}
+                  {formattedDateTime(event)[0]}
+                </time>
+                <time dateTime={event.end_time}>
+                  {' '}
+                  - {formattedDateTime(event)[1]}
                 </time>
               </div>
               <AttendeeCounter attendees={attendees} />

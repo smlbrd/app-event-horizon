@@ -13,7 +13,7 @@ const EventSummary = ({ event, showDescription = true }: EventSummaryProps) => {
         <strong>{event.title}</strong>
       </div>
       <div className="mb-3">
-        <time>{formattedDateTime(event)}</time>
+        <time>{formattedDateTime(event)[0]}</time>
       </div>
       <div className="mb-3">
         <address>{event.location}</address>
