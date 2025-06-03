@@ -25,6 +25,7 @@ pass: TestPassword123
 ```
 
 The web app is [hosted online here.](https://event-horizon-app.vercel.app/)
+
 The backend API is [hosted online here.](https://event-horizon-api-nuzf.onrender.com/api/)
 
 ---
