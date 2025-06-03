@@ -44,7 +44,14 @@ const AttendeesModal = ({ show, onClose, attendees }: AttendeesModalProps) => {
   const notGoingUsers = users.filter((u) => u.status === 'cancelled');
 
   return (
-    <Modal show={show} onClose={onClose} labelledBy="attendees-modal-title">
+    <Modal
+      show={show}
+      onClose={onClose}
+      labelledBy="attendees-modal-title"
+      onBackdropClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
       <div className="p-4">
         <h5 id="attendees-modal-title" className="visually-hidden">
           Attendees
