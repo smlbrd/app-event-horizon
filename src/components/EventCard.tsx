@@ -41,7 +41,7 @@ export default function EventCard({ event }: EventCardProps) {
         )}
         <div className="card-body d-flex flex-column text-start">
           <EventSummary event={event} showDescription={false} />
-          <AttendeeCounter attendees={attendees} onShowAttendees={() => {}} />
+          <AttendeeCounter attendees={attendees} />
         </div>
       </Link>
     </article>

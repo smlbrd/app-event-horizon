@@ -2,7 +2,7 @@ import type { Attendee } from '../types/attendee.types';
 
 interface AttendeeCounterProps {
   attendees: Attendee[];
-  onShowAttendees: () => void;
+  onShowAttendees?: () => void;
 }
 
 const AttendeeCounter = ({
@@ -22,8 +22,10 @@ const AttendeeCounter = ({
       role="button"
       aria-label="Show attendees"
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') onShowAttendees();
-        if (e.key === 'Escape') {
+        if (
+          (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') &&
+          onShowAttendees
+        ) {
           onShowAttendees();
         }
       }}
