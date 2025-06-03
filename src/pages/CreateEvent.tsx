@@ -36,18 +36,13 @@ const CreateEvent: React.FC = () => {
     const { name, value } = e.target;
     setForm((prev) => {
       const updated = { ...prev, [name]: value };
-      if (name === 'start_date' || name === 'start_time') {
-        if (
-          updated.start_date &&
-          updated.start_time &&
-          (!updated.end_date || !updated.end_time)
-        ) {
-          const start = new Date(`${updated.start_date}T${updated.start_time}`);
-          const end = new Date(start.getTime() + 60 * 60 * 1000);
-          updated.end_date = end.toISOString().slice(0, 10);
-          updated.end_time = end.toISOString().slice(11, 16);
+
+      if (name === 'start_date') {
+        if (!prev.end_date || prev.end_date === prev.start_date) {
+          updated.end_date = value;
         }
       }
+
       return updated;
     });
   };
@@ -253,6 +248,7 @@ const CreateEvent: React.FC = () => {
               value={form.start_time}
               onChange={handleStartChange}
               placeholder={todayTime}
+              step={900}
               required
             />
           </div>
@@ -281,6 +277,7 @@ const CreateEvent: React.FC = () => {
               className="form-control"
               value={form.end_time}
               onChange={handleChange}
+              step={900}
               required
             />
           </div>
