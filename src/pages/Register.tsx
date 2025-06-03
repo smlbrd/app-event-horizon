@@ -15,6 +15,7 @@ const Register: React.FC = () => {
   const { login } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const [splashImg] = useState(() => {
@@ -39,11 +40,12 @@ const Register: React.FC = () => {
     }
 
     try {
-      const data = await createUser(email, password);
+      const data = await createUser(email, password, name);
       localStorage.setItem('token', data.token);
       login({
         id: data.id.toString(),
         email: data.email,
+        name: data.name,
         role: data.role,
       });
       navigate('/');
@@ -140,6 +142,20 @@ const Register: React.FC = () => {
           }}
         >
           {error && <div className="alert alert-danger">{error}</div>}
+          <div className="mb-3">
+            <label htmlFor="signup-name" className="form-label visually-hidden">
+              Name
+            </label>
+            <input
+              id="signup-name"
+              type="text"
+              className="form-control"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoComplete="name"
+              placeholder="What should we call you?"
+            />
+          </div>
           <div className="mb-3">
             <label
               htmlFor="signup-email"

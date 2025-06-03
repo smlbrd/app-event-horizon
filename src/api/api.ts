@@ -82,11 +82,13 @@ export async function addAttendeeToEvent(
 
 export async function createUser(
   email: string,
-  password: string
+  password: string,
+  name: string
 ): Promise<{
   token: string;
   id: number;
   email: string;
+  name: string;
   role: string;
 }> {
   const response = await fetch(`${API_URL}/register`, {
@@ -94,7 +96,7 @@ export async function createUser(
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password, name }),
   });
 
   const data = await response.json();
