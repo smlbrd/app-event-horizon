@@ -10,19 +10,22 @@ Both Staff and User accounts are available on the platform. Users can create, ed
 
 Bootstrap's display breakpoints are used to create responsive interfaces across different display sizes, and accessibility features have been included (e.g. a keyboard-accessible skip-to-content component on pages displaying a header, modals and dropdowns are focused when opened, and can be closed with ESC key, aria-labels and semantic HTML tags)
 
-### The following details can be used for testing:
+### Test Account Details:
 
+#### test staff account (create events, edit and delete any event)
 ```
-## test staff account (create events, edit and delete any event)
 user: teststaff@eventhorizon.com
 pass: TestPassword123
+```
 
-## test user account (create events, edit and delete your own events)
+#### test user account (create events, edit and delete your own events)
+```
 user: testuser@example.com
 pass: TestPassword123
 ```
 
-The app is [hosted online here.](https://event-horizon-app.vercel.app/)
+The web app is [hosted online here.](https://event-horizon-app.vercel.app/)
+The backend API is [hosted online here.](https://event-horizon-api-nuzf.onrender.com/api/)
 
 ---
 
@@ -47,8 +50,7 @@ npm install
 npm run dev
 ```
 
-A terminal message with a link to the local server (e.g. `Local: http://localhost:5173/`) will open a live preview of the app.
-
+A terminal message with a link to the local server (e.g. `Local: http://localhost:5173/`) will open a live preview of the app in your browser.
 
 ## Project Structure
 
