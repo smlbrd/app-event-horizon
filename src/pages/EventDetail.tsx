@@ -20,17 +20,19 @@ import { useUser } from '../contexts/useUser';
 import AttendeesModal from '../components/AttendeeModal';
 
 const EventDetail = () => {
+  const navigate = useNavigate();
   const { user } = useUser();
   const { eventId } = useParams<{ eventId: string }>();
-  const navigate = useNavigate();
+
   const [event, setEvent] = useState<Event | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
 
-  const [showCheckout, setShowCheckout] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAttendeesModal, setShowAttendeesModal] = useState(false);
 
   const [showToast, setShowToast] = useState(false);
@@ -69,19 +71,19 @@ const EventDetail = () => {
   }, [eventId]);
 
   useEffect(() => {
-    if (showCheckout && checkoutModalRef.current) {
+    if (showCheckoutModal && checkoutModalRef.current) {
       checkoutModalRef.current.focus();
     }
-    if (showSuccess && successModalRef.current) {
+    if (showSuccessModal && successModalRef.current) {
       successModalRef.current.focus();
     }
-  }, [showCheckout, showSuccess]);
+  }, [showCheckoutModal, showSuccessModal]);
 
   useEffect(() => {
-    if (!showCheckout && getTicketsBtnRef.current) {
+    if (!showCheckoutModal && getTicketsBtnRef.current) {
       getTicketsBtnRef.current.focus();
     }
-  }, [showCheckout]);
+  }, [showCheckoutModal]);
 
   const handleEditClick = () => {
     setEditForm(event);
@@ -139,7 +141,7 @@ const EventDetail = () => {
       navigate('/login');
       return;
     }
-    setShowCheckout(true);
+    setShowCheckoutModal(true);
   };
 
   const handleConfirmRsvp = async () => {
@@ -148,15 +150,15 @@ const EventDetail = () => {
     setRsvpError(null);
     try {
       await addAttendeeToEvent(eventId, user.id, 'attending');
-      setShowCheckout(false);
-      setShowSuccess(true);
+      setShowCheckoutModal(false);
+      setShowSuccessModal(true);
       fetchAttendeesByEventId(eventId)
         .then(setAttendees)
         .catch(() => {});
     } catch (e: unknown) {
       console.log(e);
       setRsvpError('Failed to confirm RSVP. Please try again later.');
-      setShowCheckout(true);
+      setShowCheckoutModal(true);
     } finally {
       setLoadingRsvp(false);
     }
@@ -297,7 +299,7 @@ const EventDetail = () => {
                 <button
                   className="btn btn-danger ms-auto"
                   type="button"
-                  onClick={() => setShowDelete(true)}
+                  onClick={() => setShowDeleteModal(true)}
                   disabled={editLoading}
                 >
                   Delete
@@ -363,31 +365,31 @@ const EventDetail = () => {
 
       <CheckoutModal
         ref={checkoutModalRef}
-        show={showCheckout}
+        show={showCheckoutModal}
         loading={loadingRsvp}
         error={rsvpError}
-        onCancel={() => setShowCheckout(false)}
+        onCancel={() => setShowCheckoutModal(false)}
         onConfirm={handleConfirmRsvp}
         onBackdropClick={(e) =>
-          handleBackdropClick(e, () => setShowCheckout(false))
+          handleBackdropClick(e, () => setShowCheckoutModal(false))
         }
       />
       {event && (
         <SuccessModal
           ref={successModalRef}
-          show={showSuccess}
-          onClose={() => setShowSuccess(false)}
+          show={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
           event={event}
         />
       )}
 
       <DeleteEventModal
-        show={showDelete}
-        onClose={() => setShowDelete(false)}
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
         loading={editLoading}
         onDelete={async () => {
           await handleDeleteEvent(event.id);
-          setShowDelete(false);
+          setShowDeleteModal(false);
           setShowToast(true);
           setTimeout(() => {
             setShowToast(false);

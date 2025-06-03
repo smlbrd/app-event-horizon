@@ -15,7 +15,7 @@ const AttendeeCounter = ({
 
   return (
     <div
-      className="mb-3 fw-bold"
+      className="mb-3 fw-bold text-decoration-none"
       style={{ cursor: 'pointer', textDecoration: 'underline' }}
       onClick={onShowAttendees}
       tabIndex={0}

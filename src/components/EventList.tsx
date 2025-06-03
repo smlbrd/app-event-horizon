@@ -60,7 +60,7 @@ const EventList = ({
           <li
             key={event.id}
             className="flex-grow-1 mb-4"
-            style={{ minWidth: 250, maxWidth: 300, flexBasis: '250px' }}
+            style={{ minWidth: 250, maxWidth: 350, flexBasis: '250px' }}
             role="listitem"
           >
             <EventCard event={event} />

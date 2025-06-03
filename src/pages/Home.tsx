@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 import EventList from '../components/EventList';
+import Footer from '../components/Footer';
 
 const Home = () => {
   const [searchInput, setSearchInput] = useState('');
@@ -18,6 +19,7 @@ const Home = () => {
       <main id="main-content" tabIndex={-1} className="py-5">
         <EventList search={search} />
       </main>
+      <Footer />
     </>
   );
 };
