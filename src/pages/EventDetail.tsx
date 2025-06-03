@@ -312,6 +312,13 @@ const EventDetail = () => {
               </h3>
               <div className="mb-3 text-muted">
                 <address>{event.location}</address>
+                {event.price > 0 ? (
+                  <p className="mb-3">
+                    Ticket price: <strong>£{event.price}</strong>
+                  </p>
+                ) : (
+                  <p className="mb-3">Free to attend</p>
+                )}
                 <time dateTime={event.start_time}>
                   {formattedDateTime(event)[0]}
                 </time>
