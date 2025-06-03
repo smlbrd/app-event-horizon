@@ -136,13 +136,21 @@ const Header = ({ searchValue, onSearchChange, onSearch }: HeaderProps) => {
                   role="menu"
                   tabIndex={-1}
                 >
+                  <li
+                    className="dropdown-item text-muted"
+                    role="presentation"
+                    tabIndex={-1}
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    Hi, {user.name}!
+                  </li>
                   <li role="menuitem">
                     <Link
                       to="/create"
                       className="dropdown-item"
                       onClick={() => setDropdownOpen(false)}
                     >
-                      Create New
+                      Create New Event
                     </Link>
                   </li>
                   <li role="menuitem">
