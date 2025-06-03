@@ -1,14 +1,16 @@
 # Event Horizon App
 
-Event Horizon is responsive, intuitive and accessible cross-platform events management application built with React, TypeScript, and Bootstrap.
+## Overview
 
-The platform allows users to view a list of available events (an preview including event title, start time, location and current attendance numbers), select an event to see further details, RSVP to an event and once confirmed, add the event's details to their Google Calendar.
+Event Horizon is a responsive, intuitive and accessible cross-platform events management application built with React, TypeScript, and Bootstrap.
 
-Both Staff and User accounts are available. Users can create, edit and delete their own events. Staff can create events, and can edit and delete events created by any user.
+The platform allows users to view a list of available events (previews including event title, start time, location and current attendance numbers), select an event to see further details and edit or delete the event (with permissions), RSVP to an event add event details to their Google Calendar.
 
-Bootstrap's display breakpoints are used to create responsive interfaces across different display sizes, and accessibility features like a skip-to-content component on pages displaying a header, and keyboard navigation (across main pages and modals or dropdown menus) has been added alongside aria-labels and semantic HTML tags.
+Both Staff and User accounts are available on the platform. Users can create, edit and delete their own events. Staff can create events, and can edit and delete events created by any user.
 
-The following details can be used for testing:
+Bootstrap's display breakpoints are used to create responsive interfaces across different display sizes, and accessibility features have been included (e.g. a keyboard-accessible skip-to-content component on pages displaying a header, modals and dropdowns are focused when opened, and can be closed with ESC key, aria-labels and semantic HTML tags)
+
+### The following details can be used for testing:
 
 ```
 ## test staff account (create events, edit and delete any event)
