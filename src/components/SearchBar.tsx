@@ -33,6 +33,7 @@ const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
             onChange(e.target.value)
           }
           autoComplete="off"
+          aria-label="Search events"
         />
         <button
           type="submit"
