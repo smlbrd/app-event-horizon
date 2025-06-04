@@ -6,6 +6,7 @@ import { fetchEventsForUser, fetchAttendeesByEventId } from '../api/api';
 import { UserContext } from '../contexts/UserContext';
 import type { Event } from '../types/event.types';
 import type { Attendee } from '../types/attendee.types';
+import SkipToContent from '../components/SkipToContent';
 
 const MyEvents = () => {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ const MyEvents = () => {
 
   return (
     <>
+      <SkipToContent />
       <Header
         searchValue={searchInput}
         onSearchChange={setSearchInput}

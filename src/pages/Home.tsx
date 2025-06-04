@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import EventList from '../components/EventList';
 import Footer from '../components/Footer';
+import SkipToContent from '../components/SkipToContent';
 
 const Home = () => {
   const location = useLocation();
@@ -21,6 +22,7 @@ const Home = () => {
 
   return (
     <>
+      <SkipToContent />
       <Header
         searchValue={searchInput}
         onSearchChange={setSearchInput}

@@ -13,6 +13,16 @@ const AttendeeCounter = ({
     (a) => a.status === 'attending'
   ).length;
 
+  if (attendingCount === 0) return null;
+
+  if (!onShowAttendees) {
+    return (
+      <div className="mb-3 fw-bold">
+        <span className="fw-semibold">{attendingCount} going</span>
+      </div>
+    );
+  }
+
   return (
     <div
       className="mb-3 fw-bold text-decoration-none"

@@ -18,6 +18,7 @@ import { formattedDateTime } from '../utils/formattedDateTime';
 import AttendeeCounter from '../components/AttendeeCounter';
 import { useUser } from '../contexts/useUser';
 import AttendeesModal from '../components/AttendeeModal';
+import SkipToContent from '../components/SkipToContent';
 
 const EventDetail = () => {
   const navigate = useNavigate();
@@ -187,6 +188,7 @@ const EventDetail = () => {
 
   return (
     <>
+      <SkipToContent />
       <Header
         searchValue={searchInput}
         onSearchChange={setSearchInput}
