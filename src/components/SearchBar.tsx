@@ -32,21 +32,19 @@ const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
       style={{ marginBottom: 0 }}
     >
       <div className="search-bar">
-        <label htmlFor="event-search" className="visually-hidden">
-          Search events
-        </label>
         <input
           id="event-search"
           type="search"
           className="form-control"
           style={{ height: 40 }}
-          placeholder={'Search events'}
+          placeholder="Search events"
           value={value}
           onChange={handleInputChange}
           autoComplete="off"
           aria-label="Search events"
         />
         <button
+          id="event-submit"
           type="submit"
           className="search-bar-button btn-orange"
           style={{
@@ -56,7 +54,7 @@ const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          aria-label="Search"
+          aria-label="Submit search"
         >
           <img src={searchIcon} alt="" width={16} height={16} />
         </button>
