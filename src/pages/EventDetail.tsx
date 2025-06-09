@@ -227,6 +227,9 @@ const EventDetail = () => {
               {editError && (
                 <div className="alert alert-danger">{editError}</div>
               )}
+              <label className="form-label fw-semibold" htmlFor="title">
+                Event Name
+              </label>
               <input
                 className="form-control mb-2"
                 name="title"
@@ -235,6 +238,9 @@ const EventDetail = () => {
                 placeholder={event.title}
                 required
               />
+              <label className="form-label fw-semibold" htmlFor="description">
+                Event Overview
+              </label>
               <textarea
                 className="form-control mb-2"
                 name="description"
@@ -244,6 +250,9 @@ const EventDetail = () => {
                 required
                 rows={3}
               />
+              <label className="form-label fw-semibold" htmlFor="location">
+                Location
+              </label>
               <input
                 className="form-control mb-2"
                 name="location"
@@ -252,6 +261,9 @@ const EventDetail = () => {
                 placeholder={event.location}
                 required
               />
+              <label className="form-label fw-semibold" htmlFor="price">
+                Ticket Price
+              </label>
               <input
                 className="form-control mb-2"
                 name="price"
@@ -262,6 +274,9 @@ const EventDetail = () => {
                 min={0}
                 required
               />
+              <label className="form-label fw-semibold" htmlFor="start_time">
+                Event Start
+              </label>
               <input
                 className="form-control mb-2"
                 name="start_time"
@@ -270,6 +285,9 @@ const EventDetail = () => {
                 onChange={handleEditChange}
                 required
               />
+              <label className="form-label fw-semibold" htmlFor="end_time">
+                Event End
+              </label>
               <input
                 className="form-control mb-2"
                 name="end_time"
@@ -278,6 +296,9 @@ const EventDetail = () => {
                 onChange={handleEditChange}
                 required
               />
+              <label className="form-label fw-semibold" htmlFor="image_url">
+                Image URL ('https://your-image-url')
+              </label>
               <input
                 className="form-control mb-2"
                 name="image_url"
@@ -285,6 +306,12 @@ const EventDetail = () => {
                 onChange={handleEditChange}
                 placeholder={event.image_url || ''}
               />
+              <label
+                className="form-label fw-semibold"
+                htmlFor="image_alt_text"
+              >
+                Image Alt Text
+              </label>
               <input
                 className="form-control mb-2"
                 name="image_alt_text"
